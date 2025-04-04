@@ -1,0 +1,10 @@
+@use '../custom' as *;
+
+.table-responsive{
+    max-height: 245px;
+    overflow-y: auto;
+}
+
+.tabla{
+    height: 300px;
+}

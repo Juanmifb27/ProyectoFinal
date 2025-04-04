@@ -1,0 +1,10 @@
+@use '../custom' as *;
+.header{
+    padding-top: 3rem;
+    padding-bottom: 0;
+
+    @include media-breakpoint-up(sm){
+        padding-top: 2rem;
+        padding-bottom: 0;
+    }
+}

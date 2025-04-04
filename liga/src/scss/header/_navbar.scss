@@ -1,0 +1,76 @@
+@use '../custom' as *;
+
+.navbar{
+    padding: 0;
+    &__logo{
+      height: 120px;
+      width: 180px;
+    }
+}
+
+.navbar-nav {
+    height: 100%;
+    align-items: stretch;
+  
+    li {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      
+      /* Cambiar el color de texto a blanco cuando tenga el fondo bg-secondary */
+      &.bg-secondary {
+        .nav-link {
+          color: white !important; /* Asegura que el color blanco sea aplicado */
+        }
+      }
+    }
+  
+    .nav-link {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      @include media-breakpoint-up(sm){
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-bottom: 0 !important;
+    }
+      @include media-breakpoint-up(md){
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        padding-bottom: 0 !important;
+    }
+    @include media-breakpoint-up(xl){
+      padding-left: 5rem !important;
+      padding-right: 5rem !important;
+      padding-bottom: 0 !important;
+  }
+    }
+  }
+#navbarNav{
+    height: 120px;
+    padding: 0;
+
+}
+
+.navbar__container {
+  min-height: 120px; // Permite expandirse sin problemas
+  margin: 0;
+  padding-bottom: 0 !important;
+}
+
+
+.navbar-collapse {
+  @include media-breakpoint-down(xl){
+    height: auto; // Permitir altura dinámica
+    position: relative; // Cambia de absolute a relative
+    top: auto;
+    left: auto;
+    width: 100%;
+    background-color: white;
+    z-index: 1050;
+  }
+}
+
+
+
+

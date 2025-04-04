@@ -1,0 +1,31 @@
+@use 'sass:color';
+$principal: #2B4E84;
+$secundario: #3E65A0;
+$oscuro: #212121;
+$gris: #b5b5b5;
+$blanco: #FFFFFF;
+
+//asignar paleta de colores a BS
+
+$primary:$principal;
+$secondary:$secundario;
+$dark:$oscuro;
+$light:$blanco;
+
+//Tabla
+$table-striped-bg: $secundario;
+$table-striped-color:$blanco;
+
+//tipo
+$display-font-weight: 900;
+$headings-font-weight: 700;
+
+//nav link
+$nav-link-color: $gris;
+$nav-link-hover-color: color.scale($gris, $lightness: -40%);
+
+
+
+//Importamos BS de node_modules
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+

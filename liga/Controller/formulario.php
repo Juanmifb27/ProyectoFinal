@@ -5,7 +5,10 @@ include_once 'admin/config.php';
 include_once '../clases/conexion.php';
 include_once '../clases/liga.php';
 include_once '../clases/header.php';
+include_once '../clases/seguridad.php';
 include_once '../clases/functions.php';
+
+$vectorUsuario = Seguridad();
 
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -46,7 +49,7 @@ if (isset($_POST['aux']) && isset($_POST['nombreEquipo']) && isset($_POST['email
     $datosFormularioJugadores = $datos_jugadores_filtrado;
 
 
-    require 'clases/vendor/autoload.php';
+    require '../clases/vendor/autoload.php';
 
     // Crea la instancia, al pasarle true habilitamos las excepciones
     $mail = new PHPMailer(true);

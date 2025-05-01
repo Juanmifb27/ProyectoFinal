@@ -2,7 +2,7 @@
 
 class conexion{
 
-var $url_sitio="http://localhost/practicas_curso_php/practicas/liga/";
+var $url_sitio="http://localhost/ProyectoFinal/liga/";
 
 var $bd_nombre_global = "ligarg_";
 var $bd_usuario_global = "root";

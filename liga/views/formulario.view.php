@@ -5,18 +5,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulario Inscripción a la Liga</title>
+    <script src="https://kit.fontawesome.com/43cf8b4b5b.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../build/css/styles.css" />
     <!-- <link rel="stylesheet" href="build/css/bootstrap.min.css" /> -->
 </head>
 
 
 <body class="d-flex flex-column" style="height: 100vh;">
-    <?php imprime_cabecera("") ?>
+    <?php imprime_cabecera("", $vectorUsuario) ?>
 
     <main class="container mt-4">
         <h2 class="text-center mb-4">Formulario de Inscripción</h2>
@@ -122,6 +124,8 @@
                     <div id="errores" hidden>
                     </div>
                     <button type="submit" class="btn btn-primary mb-3">Enviar Inscripción</button>
+                </div>
+            </div>
         </form>
     </main>
 
@@ -164,10 +168,20 @@
                 }
                 let cantidadJugadores = document.getElementsByClassName("jugador").length;
                 let jugador = `<div id="jugador` + cantidadJugadores + `" class="d-flex justify-content-between my-3 jugador">
-                <input type="text" name="nombre_jugadores[]" class="form-control w-25 me-3" placeholder="Nombre" value="" >
-                <input type="text" name="apellidos_jugadores[]" class="form-control w-25 me-3" placeholder="Apellidos" >
-                <input type="email" name="correos_jugadores[]" class="form-control w-25 me-3 correo" placeholder="Correo Corporativo" >
-                <select class="form-select w-25" id="curso" name="curso[]" >
+                <div class="d-flex flex-column w-25 me-3">
+                <input type="text" name="nombre_jugadores[]" class="form-control w-100" placeholder="Nombre" value="" required >
+                <div class="invalid-feedback">Introduce el Nombre del Jugador.</div>
+                </div>
+                <div class="d-flex flex-column w-25 me-3">
+                <input type="text" name="apellidos_jugadores[]" class="form-control w-100" placeholder="Apellidos" required >
+                <div class="invalid-feedback">Introduce el Apellido del Jugador.</div>
+                </div>
+                <div class="d-flex flex-column w-25 me-3">
+                <input type="email" name="correos_jugadores[]" class="form-control w-100 correo" placeholder="Correo Corporativo" required >
+                <div class="invalid-feedback">Introduce un email válido.</div>
+                </div>
+                <div class="d-flex flex-column w-25 me-3">
+                <select class="form-select w-100" id="curso" name="curso[]" required >
                 <option value="">Seleccione el curso...</option>
                 <option value="1 ESO">1º ESO</option>
                 <option value="2 ESO">2º ESO</option>
@@ -177,9 +191,11 @@
                 <option value="2 Bach">2º Bachillerato</option>
                 <option value="1 SMR">1º SMR</option>
                 <option value="2 SMR">2º SMR</option>
-                <option value="1 DAW">2º DAW</option>
+                <option value="1 DAW">1º DAW</option>
                 <option value="2 DAW">2º DAW</option>
                 </select>
+                <div class="invalid-feedback">Introduce el curso del Jugador</div>
+                </div>
                 </div>`;
                 document.getElementById("dataJugadores").innerHTML += jugador;
             }
@@ -200,7 +216,7 @@
                     let datosJugador = cantidadJugadores2[index].children;
                     datosJugadores[index] = new Array(datosJugador.length);
                     for (let index2 = 0; index2 < datosJugador.length; index2++) {
-                        datosJugadores[index][index2] = datosJugador[index2].value;
+                        datosJugadores[index][index2] = datosJugador[index2].children[0].value;
                     }
                 }
 
@@ -208,24 +224,35 @@
                 <?php if (isset($datosFormularioJugadores) && $datosFormularioJugadores != ""): ?>
 
                     <?php for ($i = 0; $i < count($datosFormularioJugadores); $i++): ?>
-                        datosJugadores[<?php echo $i; ?>] = new Array(<?php //echo count($datosFormularioJugadores[$i]);?>);
+                        datosJugadores[<?php echo $i; ?>] = new Array(<?php //echo count($datosFormularioJugadores[$i]);
+                                                                        ?>);
                         <?php $j = 0; ?>
                         <?php foreach ($datosFormularioJugadores[$i] as $valor) : ?>
                             datosJugadores[<?php echo $i; ?>][<?php echo $j++ ?>] = "<?php echo $valor ?>";
                         <?php endforeach; ?>
                     <?php endfor; ?>
                 <?php endif; ?>
-                <?php $datosFormularioJugadores = ""?>
+                <?php $datosFormularioJugadores = "" ?>
                 document.getElementById("dataJugadores").innerHTML = ""
 
                 for (let index = 0; index < datosJugadores.length; index++) {
                     let j = 0;
 
                     let jugador = `<div id="jugador` + index + `" class="d-flex justify-content-between my-3 jugador">
-                    <input type="text" name="nombre_jugadores[]" class="form-control w-25 me-3" placeholder="Nombre" value="` + datosJugadores[index][0] + `" >
-                    <input type="text" name="apellidos_jugadores[]" class="form-control w-25 me-3" placeholder="Apellidos" value="` + datosJugadores[index][1] + `" >
-                    <input type="email" name="correos_jugadores[]" class="form-control w-25 me-3 correo" placeholder="Correo Corporativo" value="` + datosJugadores[index][2] + `" >
-                    <select class="form-select w-25" id="curso` + index + `" name="curso[]" >
+                    <div class="d-flex flex-column w-25 me-3">
+                    <input type="text" name="nombre_jugadores[]" class="form-control w-100" placeholder="Nombre" value="` + datosJugadores[index][0] + `" required >
+                    <div class="invalid-feedback">Introduce el Nombre del Jugador.</div>
+                    </div>
+                    <div class="d-flex flex-column w-25 me-3">
+                    <input type="text" name="apellidos_jugadores[]" class="form-control w-100" placeholder="Apellidos" value="` + datosJugadores[index][1] + `" required >
+                    <div class="invalid-feedback">Introduce el Apellido del Jugador.</div>
+                    </div>
+                    <div class="d-flex flex-column w-25 me-3">
+                    <input type="email" name="correos_jugadores[]" class="form-control w-100 correo" placeholder="Correo Corporativo" value="` + datosJugadores[index][2] + `" required >
+                    <div class="invalid-feedback">Introduce un email válido.</div>
+                    </div>
+                    <div class="d-flex flex-column w-25 me-3">
+                    <select class="form-select w-100" id="curso` + index + `" name="curso[]" required >
                     <option value="">Seleccione el curso...</option>
                     <option value="1 ESO">1º ESO</option>
                     <option value="2 ESO">2º ESO</option>
@@ -235,9 +262,11 @@
                     <option value="2 Bach">2º Bachillerato</option>
                     <option value="1 SMR">1º SMR</option>
                     <option value="2 SMR">2º SMR</option>
-                    <option value="1 DAW">2º DAW</option>
+                    <option value="1 DAW">1º DAW</option>
                     <option value="2 DAW">2º DAW</option>
                     </select>
+                    <div class="invalid-feedback">Introduce el curso del Jugador</div>
+                    </div>
                     </div>`;
 
                     document.getElementById("dataJugadores").innerHTML += jugador;
@@ -261,17 +290,17 @@
                     const jugador = cantidadJugadores[index].children;
                     let valido = true
                     for (let index2 = 0; index2 < jugador.length; index2++) {
-                        if (jugador[index2].value =="") {
-                        valido = false;                            
+                        if (jugador[index2].value == "") {
+                            valido = false;
                         }
                     }
-                    if (valido){
+                    if (valido) {
                         jugadoresCompletos++;
                     }
                 }
                 return jugadoresCompletos; // Devuelve el número de jugadores
             }
-            
+
             function verificarCorreo() {
                 const correos = document.getElementsByClassName("correo");
                 let patron = /([\w]+\.[\w]+\-[\w]+@[i][e][s][r][u][i][z][g][i][j][o][n]\.[c][o][m])/;
@@ -287,13 +316,14 @@
                         verificado = false;
                     }
                 }
+                return verificado;
             }
 
             form.addEventListener("submit", function(event) {
                 const totalJugadores = contarJugadores();
-                verificarCorreo();
+                const correo = verificarCorreo();
                 // Si el formulario no es válido o hay menos de 5 jugadores, evita el envío
-                if (!form.checkValidity() || totalJugadores < 5) {
+                if (!form.checkValidity() || totalJugadores < 5 || !correo) {
                     event.preventDefault();
                     event.stopPropagation();
                     if (totalJugadores < 5) {
@@ -318,7 +348,13 @@
 
         })();
     </script>
-
+        <script>
+      const btnInicioSesion = document.getElementById("IniciarSesion");
+      const modalInicioSesion = new bootstrap.Modal(document.getElementById("ModalForm"));
+      btnInicioSesion.addEventListener("click", function(){
+        modalInicioSesion.show();
+      })
+    </script>
 
 
 </body>

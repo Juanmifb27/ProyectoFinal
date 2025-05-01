@@ -11,25 +11,12 @@ function __construct(){
 }
 
 function insertar($equipo_nombre, $equipo_contacto, $equipo_imagen ,$equipo_liga){
-    $consulta = "INSERT INTO equipos(nombre_equipo, equipo_correo, equipo_imagen, id_liga VALUES('$equipo_nombre', '$equipo_contacto', '$equipo_imagen', $equipo_liga)";
+    $consulta = "INSERT INTO equipos(nombre_equipo, equipo_correo, equipo_imagen, id_liga) VALUES('$equipo_nombre', '$equipo_contacto', '$equipo_imagen', $equipo_liga)";
     $res = $this->conexion->BD_Consulta($consulta);
     return $res;
 }
 
 function eliminar($condicion){
-    $order="";
-    $resultado = $this->obtenerConFiltro($condicion, $order);
-    if ($resultado != NULL) {
-        $tupla = $this->conexion->BD_GetTupla($resultado);
-        while($tupla != NULL){
-            if (trim($tupla['equipo_imagen']) != "") {
-                $nombreImagen = "../../build/assets/equipo/img/" . $tupla['equipo_imagen'];
-                unlink($nombreImagen);
-            }
-            $tupla = $this->conexion->BD_GetTupla($resultado);
-        }
-    }
-
     $consulta = "DELETE FROM equipos $condicion";
     $res = $this->conexion->BD_Consulta($consulta);
     return $res;
@@ -37,7 +24,7 @@ function eliminar($condicion){
 
 
 function modificar($equipo_nombre,$equipo_contacto, $equipo_imagen, $equipo_puntos, $equipo_partidos_jugados, $equipo_goles_a_favor, $equipo_goles_en_contra, $equipo_liga, $equipo_id){
-    $consulta = "UPDATE equipos SET nombre-equipo='$equipo_nombre', equipo_correo='$equipo_contacto', equipo_imagen='$equipo_imagen', puntos=$equipo_puntos, partidos_jugados=$equipo_partidos_jugados, goles_a_favor=$equipo_goles_a_favor, goles_en_contra=$equipo_goles_en_contra, id_liga=$equipo_liga WHERE id=$equipo_id";
+    $consulta = "UPDATE equipos SET nombre_equipo='$equipo_nombre', equipo_correo='$equipo_contacto', equipo_imagen='$equipo_imagen', puntos=$equipo_puntos, partidos_jugados=$equipo_partidos_jugados, goles_a_favor=$equipo_goles_a_favor, goles_en_contra=$equipo_goles_en_contra, id_liga=$equipo_liga WHERE id=$equipo_id";
     $res = $this->conexion->BD_Consulta($consulta);
     return $res;
 }

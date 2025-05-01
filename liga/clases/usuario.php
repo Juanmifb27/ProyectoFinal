@@ -12,9 +12,9 @@ class usuario
         $this->conexion = new conexion();
     }
 
-    function insertar($password, $rol, $nombre, $apellidos, $email, $id_liga, $id_equipo)
+    function insertar($email, $password, $rol, $nombre, $id_jugador, $id_liga, $id_equipo)
     {
-        $consulta = "INSERT INTO usuarios(password,rol,nombre,apellidos,email,id_liga,id_equipo) VALUES($password','$rol','$nombre','$apellidos','$email','$id_liga','$id_equipo')";
+        $consulta = "INSERT INTO usuarios(email,password,rol,nombre,id_jugador,id_liga,id_equipo) VALUES('$email',$password','$rol','$nombre', '$id_jugador','$id_liga','$id_equipo')";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }

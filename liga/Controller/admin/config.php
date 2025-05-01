@@ -1,10 +1,10 @@
 <?php
 
-define('RUTA', 'http://localhost/practicas_curso_php/practicas/liga/');
+define('RUTA', 'http://localhost/ProyectoFinal/liga/');
 
 
 $bd_config = array(
-    'basedatos' => 'ligaRG',
+    'basedatos' => 'ligarg_',
     'usuario' => 'root',
     'pass' => ''
 );

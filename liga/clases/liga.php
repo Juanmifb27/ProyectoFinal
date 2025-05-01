@@ -24,8 +24,8 @@ function eliminar($condicion){
     return $res;
 }
 
-function modificar($liga_nombre){
-    $consulta = "UPDATE ligas SET nombre_liga='$liga_nombre'";
+function modificar($liga_nombre, $liga_id){
+    $consulta = "UPDATE ligas SET nombre_liga='$liga_nombre' where id=$liga_id";
     $res = $this->conexion->BD_Consulta($consulta);
     return $res;
 }

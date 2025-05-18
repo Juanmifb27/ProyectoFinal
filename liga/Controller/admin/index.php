@@ -17,7 +17,6 @@ $liga = new liga();
 
 // conseguido leer el array de los jugadores, esto iría en la
 // parte de inscripción del equipo (Para verificar la inscripcion desde el correo).
-// var_dump(unserialize($_GET['jugadores']));
 
 require '../../views/admin/index.view.php';
 ?>

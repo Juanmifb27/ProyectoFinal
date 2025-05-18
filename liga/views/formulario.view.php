@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../build/css/styles.css" />
+    <link rel="stylesheet" href="../../build/css/styles.css" />
     <!-- <link rel="stylesheet" href="build/css/bootstrap.min.css" /> -->
 </head>
 
@@ -22,7 +22,7 @@
 
     <main class="container mt-4">
         <h2 class="text-center mb-4">Formulario de Inscripción</h2>
-        <form id="formInscripcion" class="needs-validation" method="post" role="form" action="<?php RUTA; ?>formulario.php" novalidate>
+        <form id="formInscripcion" class="needs-validation" method="post" role="form" action="<?php RUTA; ?>formulario.php" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="aux" id="aux" />
 
             <?php $nombreEquipo = "";
@@ -98,20 +98,24 @@
                     } else {
                         print("<option value=\"\" disabled> Seleccione una liga...</option> ");
                     }
-                    $sqlLiga = "SELECT *  FROM ligas WHERE nombre_liga NOT LIKE '%Grupo%'";
+                    $sqlLiga = "SELECT *  FROM ligas";
                     $resLiga = $conexion->BD_Consulta($sqlLiga);
                     $tuplaLiga = $conexion->BD_GetTupla($resLiga);
                     while ($tuplaLiga != NULL) {
                         if ($ligaOpc == $tuplaLiga['nombre_liga']) {
-                            print("<option value=\"" . $tuplaLiga['nombre_liga'] . "\" selected=\"selected\">" . $tuplaLiga["nombre_liga"] . "</option>");
+                            print("<option value=\"" . $tuplaLiga['id'] . "\" selected=\"selected\">" . $tuplaLiga["nombre_liga"] . "</option>");
                         } else {
-                            print("<option value=\"" . $tuplaLiga['nombre_liga'] . "\">" . $tuplaLiga["nombre_liga"] . "</option>");
+                            print("<option value=\"" . $tuplaLiga['id'] . "\">" . $tuplaLiga["nombre_liga"] . "</option>");
                         }
                         $tuplaLiga = $conexion->BD_GetTupla($resLiga);
                     }
                     ?>
                 </select>
                 <div class="invalid-feedback">Selecciona una liga.</div>
+            </div>
+            <div class="mb-3">
+            <label for="escudo" class="form-label">Imagen Escudo</label>
+            <input class="form-control" type="file" id="escudo" name="escudo" accept="image/*">
             </div>
 
             <div class="mb-3">

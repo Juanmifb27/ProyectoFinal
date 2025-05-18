@@ -1,6 +1,6 @@
 <?php
 
-define('RUTA', 'http://localhost/ProyectoFinal/liga/');
+define('RUTA', 'http://juanmanueljmfb.free.nf/');
 
 
 $bd_config = array(

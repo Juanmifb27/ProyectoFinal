@@ -9,7 +9,6 @@ function imprime_cabecera($section, $vector_return)
     $root[] = $ruta[$i];
   }
   $root = implode("/", $root);
-
   // En caso de que la pestaña activa sea el inicio
   $active_home = "";
   $active_color = "bg-secondary";
@@ -17,7 +16,7 @@ function imprime_cabecera($section, $vector_return)
     $active_home = "active";
 
   // Recogemos todas las ligas (sin contar grupos secundarios)
-  $sql = "SELECT *  FROM ligas WHERE nombre_liga NOT LIKE '%Grupo%'";
+  $sql = "SELECT l.* FROM ligas l JOIN emparejamientos e ON l.id = e.liga_id WHERE l.nombre_liga NOT LIKE '%Grupo%' GROUP BY l.id HAVING COUNT(e.id) > 0";
   $listaLigas = $conexion->BD_Consulta($sql);
   while ($countLigas = $conexion->BD_GetTupla($listaLigas)) {
     $arrayLigas[] = $countLigas;
@@ -105,7 +104,7 @@ function imprime_cabecera($section, $vector_return)
           <nav class=\"navbar navbar-expand-xl container bg-body-tertiary\">
             <div class=\"container-fluid d-flex justify-content-center navbar__container\">
               <!-- Logo -->
-              <a class=\"navbar-brand\" href=\"$root\">
+              <a class=\"navbar-brand\" href=\"$root/index.php\">
                 <img src=\"$root/build/assets/img/logo_RG_180_mono_new_nohalo.png\" alt=\"Logo\" class=\"img-fluid navbar__logo\">              
               </a>
               <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\" 
@@ -115,7 +114,7 @@ function imprime_cabecera($section, $vector_return)
               <div class=\"collapse navbar-collapse\" id=\"navbarNav\">
                 <ul class=\"navbar-nav d-flex justify-content-center w-100\">
                   <li class=\"nav-item " . ($active_home != '' ? $active_color : '') . " \">
-                    <a class=\"nav-link $active_home\" aria-current=\"page\" href=\"$root\">Home</a>
+                    <a class=\"nav-link $active_home\" aria-current=\"page\" href=\"$root/index.php\" >Home</a>
                   </li>");
   // recorremos las ligas existentes para generar sus pestañas
   foreach ($arrayLigas as $liga) {

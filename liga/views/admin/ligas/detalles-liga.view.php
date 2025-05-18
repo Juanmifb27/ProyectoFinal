@@ -13,6 +13,7 @@
     <link href="../../../build/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!-- <link rel="stylesheet" href="../../../build/css/styles.css"> -->
     <link href="../../../build/js/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.datatables.net/2.3.0/css/dataTables.dataTables.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed">
@@ -136,6 +137,13 @@
                                 <strong><i class=\"bi bi-hand-thumbs-down-fill text-white\"></i> Error!</strong> " . $_GET["error"] . " 
                             </div>");
                             }
+                            
+                            if($necesitaEmparejamientos == true){
+                                print("<div class=\"alert alert-warning\">
+                                <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>
+                                <strong><i class=\"fa-solid fa-triangle-exclamation text-white\"></i> Atencion!</strong>  Esta Liga no aún no tiene generado los Emparejamientos
+                                </div>");
+                            }
                             ?>
                             <div class="row">
                                 <div class="col-xl-12">
@@ -190,19 +198,6 @@
                                                         <h6 class="d-inline">Boton para ver los emparejamientos de la liga, tambien te permite generar automáticamente las jornadas, generarlas SOLO cuado ya esten todos los equipos listos.</h6>
                                                     </li>
                                                     <br>
-                                                    <li>
-                                                        <a class="btn btn-primary btn-pill btn-sm font-weight-bold">
-                                                            <span class="svg-icon svg-icon-white"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                        <rect x="0" y="0" width="24" height="24" />
-                                                                        <path d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) " />
-                                                                        <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1" />
-                                                                    </g>
-                                                                </svg></span> EDITAR
-                                                        </a>
-                                                        <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Sirve para editar informacion sobre el equipo, como el nombre, el correo, puntos o los goles a favor y en contra que tiene, NO se pueden editar desde aquí sus jugadores.</h6>
-                                                    </li>
                                                     <br>
                                                     <li>
                                                         <a class="btn btn-danger btn-pill btn-sm font-weight-bold" data-toggle="modal" data-target="#ModalEliminarLiga">
@@ -223,7 +218,7 @@
                                                             <span class="svg-icon svg-icon-default"><i class="fa-solid fa-magnifying-glass"></i></span> INSPECCIONAR
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Muestra los jugadores que tiene ese equipo, desde aquí le puedes agregar jugadores y eliminarlos, pero no podras eliminar un jugador si eso hace que no cumpla el numero minimo de jugadores</h6>
+                                                        <h6 class="d-inline">Muestra los datos del Equipo y los jugadores que tiene, desde aquí le puedes modificar los datos del equipo además de agregar jugadores y eliminarlos, pero no podras eliminar un jugador si eso hace que no cumpla el numero minimo de jugadores</h6>
                                                     </li>
                                                 </ol>
                                             </div>
@@ -231,9 +226,6 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="col-lg-4 col-md-4 col-sm-4 text-center">
-                                                        <input type="text" id="InputBuscar" class="form-control mb-5 d-inline-block" onkeyup="myFunction()" placeholder="Buscar Equipo..." title="Buscar Equipo">
-                                                    </div>
                                                     <div class="text-right">
 
                                                         <div class="mb-5 botonera text-right d-inline-block">
@@ -251,7 +243,7 @@
 
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="table-responsive">
-                                                        <table class="table table-striped table-active" id="TablaLigas">
+                                                        <table class="table table-striped table-active" id="TablaEquipos">
                                                             <thead>
                                                                 <tr class="">
                                                                     <th data-type="string">NOMBRE EQUIPO</th>
@@ -261,6 +253,7 @@
                                                                     <th data-type="number">GA</th>
                                                                     <th data-type="number">GC</th>
                                                                     <th data-type="number">JUGADORES INSCRITOS</th>
+                                                                    <th class="no-sort"></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -272,10 +265,10 @@
                                                                     print("<tr>
                                                                     <td>" . $tuplaEquipos["nombre_equipo"] . "</td>
                                                                     <td>" . $tuplaEquipos["equipo_correo"] . "</td>
-                                                                    <td>" . $tuplaEquipos["puntos"] . "</td>
-                                                                    <td>" . $tuplaEquipos["partidos_jugados"] . "</td>
-                                                                    <td>" . $tuplaEquipos["goles_a_favor"] . "</td>
-                                                                    <td>" . $tuplaEquipos["goles_en_contra"] . "</td>
+                                                                    <td class=\"text-center\">" . $tuplaEquipos["puntos"] . "</td>
+                                                                    <td class=\"text-center\">" . $tuplaEquipos["partidos_jugados"] . "</td>
+                                                                    <td class=\"text-center\">" . $tuplaEquipos["goles_a_favor"] . "</td>
+                                                                    <td class=\"text-center\">" . $tuplaEquipos["goles_en_contra"] . "</td>
                                                                 ");
                                                                     $sqlJugadores = "SELECT * from jugadores where id_equipo=" . $tuplaEquipos["id"] . "";
                                                                     $resJugadores = $conexion->BD_Consulta($sqlJugadores);
@@ -284,17 +277,8 @@
                                                                     } else {
                                                                         $numJugadores = $conexion->BD_NumeroFilas($resJugadores);
                                                                     }
-                                                                    print("<td>" . $numJugadores . "</td>");
+                                                                    print("<td class=\"text-center\">" . $numJugadores . "</td>");
                                                                     print("<td class=\"text-right\">
-                                                                        <a href=\"mod-equipo.php?equipo_id=" . $tuplaEquipos["id"] . "\" class=\"btn btn-primary btn-pill btn-sm font-weight-bold\">
-                                                                            <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
-                                                                                    <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
-                                                                                        <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" />
-                                                                                        <path d=\"M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z\" fill=\"#000000\" fill-rule=\"nonzero\" transform=\"translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) \" />
-                                                                                        <rect fill=\"#000000\" opacity=\"0.3\" x=\"5\" y=\"20\" width=\"15\" height=\"2\" rx=\"1\" />
-                                                                                    </g>
-                                                                                </svg></span> EDITAR
-                                                                        </a>
                                                                         <a href=\"#\" class=\"btn btn-danger btn-pill btn-sm font-weight-bold\" data-toggle=\"modal\" data-target=\"#ModalEliminarEquipo" . $tuplaEquipos["id"] . "\">
                                                                             <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
                                                                                     <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
@@ -304,7 +288,7 @@
                                                                                     </g>
                                                                                 </svg></span> ELIMINAR
                                                                         </a>
-                                                                        <a href=\"detalles-equipo.php?equipo_id=" . $tuplaEquipos["id"] . "\" class=\"btn btn-info btn-pill btn-sm font-weight-bold\">
+                                                                        <a href=\"mod-equipo.php?equipo_id=" . $tuplaEquipos["id"] . "\" class=\"btn btn-info btn-pill btn-sm font-weight-bold\">
                                                                                 <span class=\"svg-icon svg-icon-default\"><i class=\"fa-solid fa-magnifying-glass\"></i></span> INSPECCIONAR
                                                                         </a>
                                                                     </td>
@@ -378,31 +362,12 @@
         </div>
         <!--end::Page-->
     </div>
-
     <script src="../../../build/js/global/plugins.bundle.js"></script>
     <script src="../../../build/js/scripts.bundle.js"></script>
     <!--end::Global Theme Bundle-->
     <!-- <script src="../../../build/js/bootstrap-datepicker.js"></script> -->
+    <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>
     <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("InputBuscar");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("TablaLigas");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-
         function mostrarAyuda() {
             var ayuda = document.getElementById("ayudaUsuario");
 
@@ -414,7 +379,29 @@
         }
     </script>
 
-    <script src="../../../build/js/ordenarColumnas.js"></script>
+    <script>
+    $(document).ready(function() {
+            tabla = $('#TablaEquipos').DataTable({
+                pageLength: 5,
+                order: [],
+                lengthMenu: [5, 10, 15, 20],
+                columnDefs: [{
+                    targets: 'no-sort',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    targets: 'column-hid',
+                    orderable: false,
+                    searchable: true,
+                    visible: false
+                }],
+                language: {
+                    url: '../../../build/js/datatables/es-ES.json',
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

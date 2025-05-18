@@ -29,6 +29,18 @@ function modificar($equipo_nombre,$equipo_contacto, $equipo_imagen, $equipo_punt
     return $res;
 }
 
+function dar_Resultado($id, $puntos, $goles_a_favor, $goles_en_contra){
+    $consulta = "UPDATE equipos SET puntos=puntos+$puntos, goles_a_favor=goles_a_favor+$goles_a_favor, goles_en_contra=goles_en_contra+$goles_en_contra, partidos_jugados=partidos_jugados+1 WHERE id=$id";
+    $res = $this->conexion->BD_Consulta($consulta);
+    return $res;
+}
+
+function resetear_Resultado($id, $puntos, $goles_a_favor, $goles_en_contra){
+    $consulta = "UPDATE equipos SET puntos=puntos-$puntos, goles_a_favor=goles_a_favor-$goles_a_favor, goles_en_contra=goles_en_contra-$goles_en_contra, partidos_jugados=partidos_jugados-1 WHERE id=$id";
+    $res = $this->conexion->BD_Consulta($consulta);
+    return $res;
+}
+
 function modificarImagen($equipo_imagen, $equipo_id){
     $consulta = "UPDATE equipos SET equipo_imagen='$equipo_imagen' WHERE id=$equipo_id";
     $res = $this->conexion->BD_Consulta($consulta);
@@ -78,6 +90,8 @@ function eliminarImagen($imagen){
         unlink ($imagen2);
     }
 }
+
+
 
 
 ?>

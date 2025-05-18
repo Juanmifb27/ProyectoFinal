@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+error_reporting(E_ALL);
+
 session_start();
 include_once '../config.php';
 include_once '../../../clases/conexion.php';
@@ -20,6 +25,8 @@ $equipo = new equipo();
 $jugador = new jugador();
 $usuario = new usuario();
 
+$error = "";
+
 if (isset($_GET["liga_id"])) {
     $liga_id = $_GET["liga_id"];
     $sql = "SELECT * FROM ligas WHERE id=$liga_id";
@@ -31,14 +38,44 @@ if (isset($_GET["liga_id"])) {
     $liga_nombre = $tuplaLiga["nombre_liga"];
 }
 
+$nombre_equipo = "";
+$correo_equipo = "";
+
+if(isset($_GET["nombre_equipo"]) && isset($_GET["equipo_correo"]) && isset($_GET["jugadores"])){
+$nombre_equipo = $_GET["nombre_equipo"];
+$correo_equipo = $_GET["equipo_correo"];
+$jugadores =unserialize($_GET['jugadores']);
+}
+
 if (isset($_POST["equipo"])) {
     $error = '';
-    if ($_POST["equipo_nombre"] == "" || $_POST["equipo_correo"] == "" || $_POST["equipo_imagen"] == "") {
+    $nombreImg = 'default.png';
+    $ruta = "../../../build/assets/img/equipos/". $nombreImg;
+    $destino = "../../../build/assets/img/equipos/". $nombreImg;
+    if ($_POST["equipo_nombre"] == "" || $_POST["equipo_correo"] == "") {
         $error = "Debes introducir los datos del equipo";
     }else {
         $equipo_nombre = $_POST["equipo_nombre"];
         $equipo_correo = $_POST["equipo_correo"];
-        $equipo_imagen = $_POST["equipo_imagen"];
+        if(isset($_FILES['equipo_imagen'])){
+            if($_FILES['equipo_imagen']['name'] != ""){
+            $nombreImg = $_FILES['equipo_imagen']['name'];
+            $ruta = $_FILES['equipo_imagen']['tmp_name'];
+            $destino = "../../../build/assets/img/equipos/" . $_FILES['equipo_imagen']['name'];
+        }else{
+            $nombreImg = 'default.png';
+            $ruta = "../../../build/assets/img/equipos/". $nombreImg;
+            $destino = "../../../build/assets/img/equipos/". $nombreImg;
+        }
+        // if (isset($_FILES['equipo_imagen'])) {
+        // $nombreImg = $_FILES['equipo_imagen']['name'];
+        // $ruta      = $_FILES['equipo_imagen']['tmp_name'];
+        // $destino   = RUTA ."/build/assets/img/equipos/" . $nombreImg;
+        // var_dump($ruta)
+        // }else{
+        //     $nombreImg = 'default.jpg';
+        //     $ruta = RUTA ."/build/assets/img/equipos/". $nombreImg;
+        // }
         if (!isset($_POST["nombre_jugadores"]) || !isset($_POST["apellidos_jugadores"]) || !isset($_POST["correos_jugadores"])) {
             $error = "Debes introducir los datos de los jugadores";
         } else {
@@ -57,14 +94,16 @@ if (isset($_POST["equipo"])) {
                     $error = "Ya existe un equipo con esos datos";
                 }else{
                     for ($i=0; $i < count($jugadores_nombre); $i++) { 
-                        $sql = "SELECT * FROM jugadores WHERE jugador_nombre='$jugadores_nombre[$i]' or jugador_correo='$jugadores_correo[$i]'";
+                        $sql = "SELECT * FROM jugadores WHERE jugador_correo='$jugadores_correo[$i]'";
                         $resJugador = $conexion->BD_Consulta($sql);
                         if ($conexion->BD_NumeroFilas($resJugador) >0) {
                             $error .= "El jugador $jugadores_nombre[$i] con correo $jugadores_correo[$i] ya está registrado en otro equipo de alguna liga";
                         }
                     }
                     if ($error == '') {
-                        $equipo->insertar($equipo_nombre, $equipo_correo, $equipo_imagen, $liga_id);
+                            if (move_uploaded_file($ruta, $destino)){
+                            $equipo->insertar($equipo_nombre, $equipo_correo, $nombreImg, $liga_id);
+                        }
                         
                         $sql = "SELECT * FROM equipos WHERE nombre_equipo='$equipo_nombre'";
                         $resEquipo = $conexion->BD_Consulta($sql);
@@ -73,12 +112,12 @@ if (isset($_POST["equipo"])) {
                         
                         for ($i=0; $i < count($jugadores_nombre) ; $i++) { 
                             $jugador->insertar("$jugadores_nombre[$i] $jugadores_apellido[$i]", $jugadores_correo[$i], $jugadores_curso[$i], $equipo_id, $liga_id);
-                            $sql = "SELECT * FROM jugadores WHERE jugador_nombre='$jugadores_nombre[$i] $jugadores_apellido[$i]'";
-                            $resJugador = $conexion->BD_GetTupla($sql);
+                            $sql = "SELECT * FROM jugadores WHERE jugador_correo='$jugadores_correo[$i]'";
+                            $resJugador = $conexion->BD_Consulta($sql);
                             $tuplaJugador = $conexion->BD_GetTupla($resJugador);
                             $jugador_id = $tuplaJugador["id"];
-                            $password = explode("@", $jugadores_correo[$i]);
-                            $usuario->insertar($jugadores_correo[$i], $password, "Usuario", $jugadores_nombre[$i], $jugador_id, $liga_id, $equipo_id);
+                            $password = CreacionClave();
+                            $usuario->insertar($jugadores_correo[$i], $password, "Usuario", $jugador_id, $liga_id, $equipo_id);
                         }
                         $correcto = "Se ha inscrito el equipo correctamente";
                         print("<script>document.location.href='./detalles-liga.php?liga_id=$liga_id&correcto=$correcto'</script>");

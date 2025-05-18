@@ -1,0 +1,17 @@
+php_value display_errors On
+php_value mbstring.http_input auto
+php_value date.timezone America/New_York
+RewriteEngine On
+# Redirige la URL de liga a Controller/liga.php y pasa el parámetro 'liga' como GET
+RewriteCond %{QUERY_STRING} ^liga=(.*)$
+RewriteRule ^liga$ Controller/liga.php?liga=%1 [L]
+# Redirige la URL de formulario a Controller/formulario.php sin parámetros
+RewriteRule ^formulario$ Controller/formulario.php [L]
+# Redirige la URL de index a Controller/index.php sin parámetros
+RewriteRule ^index$ Controller/index.php [L]
+# Redirige la raíz del dominio a index.php
+RewriteRule ^$ Controller/index.php [L]
+# Redirige las rutas de recursos como JS, CSS e imágenes (si es necesario)
+RewriteRule ^build/js/(.*)$ build/js/$1 [L]
+RewriteRule ^build/css/(.*)$ build/css/$1 [L]
+RewriteRule ^build/assets/(.*)$ build/assets/$1 [L]

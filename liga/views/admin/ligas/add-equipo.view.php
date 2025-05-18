@@ -141,7 +141,7 @@
                                 <div class="col-xl-12">
                                     <div class="row justify-content-center gap-3 mt-3 align-items-center flex-column flex-md-row">
                                         <div class="mb-5 botonera text-right">
-                                            <a href="index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
+                                            <a href="../ligas/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-trophy"></i></span> Ligas
                                             </a>
                                         </div>
@@ -173,25 +173,99 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <form class="form" id="formInscripcion" action="add-equipo.php?liga_id=<?php echo $liga_id; ?>" method="post">
+                                                    <form class="form" id="formInscripcion" action="add-equipo.php?liga_id=<?php echo $liga_id; ?>" method="post" enctype="multipart/form-data">
                                                         <input type="hidden" name="equipo">
                                                         <div class="modal-body row">
                                                             <div class="form-group col-lg-12 col-sm-12">
                                                                 <label for="equipo_nombre">Nombre Equipo</label>
-                                                                <input type="text" name="equipo_nombre" id="equipo_nombre" class="form-control h-auto form-control-solid py-4 px-8" require>
+                                                                <input type="text" name="equipo_nombre" id="equipo_nombre" class="form-control h-auto form-control-solid py-4 px-8" value="<?php echo $nombre_equipo;?>" require>
                                                             </div>
                                                             <div class="form-group col-lg-12 col-sm-12">
                                                                 <label for="equipo_correo">Correo Contacto</label>
-                                                                <input type="text" name="equipo_correo" id="equipo_correo" class="form-control h-auto form-control-solid py-4 px-8 correo" require>
+                                                                <input type="text" name="equipo_correo" id="equipo_correo" class="form-control h-auto form-control-solid py-4 px-8 correo" value="<?php echo $correo_equipo ?>" require>
                                                             </div>
                                                             <div class="form-group col-lg-12 col-sm-12">
                                                                 <label for="equipo_imagen">Escudo Equipo</label>
-                                                                <input type="text" name="equipo_imagen" id="equipo_imagen" class="form-control h-auto form-control-solid py-4 px-8" require>
+                                                                <input type="file" name="equipo_imagen" id="equipo_imagen" class="form-control h-auto form-control-solid py-4 px-8" accept="image/*">
                                                             </div>
                                                             <div class="mb-3 col-lg-12 col-sm-12">
                                                                 <div id="jugadores" class=" jugadores container d-flex flex-column border-4 border-primary">
                                                                     <label class="form-label">Introduzca los datos de los jugadores del Equipo (Minimo 5)</label>
                                                                     <div id="dataJugadores" class="dataJugadores">
+                                                                    <?php if(isset($jugadores)){
+                                                                        for($i = 0; $i < count($jugadores); $i++){
+                                                                            print("<div id=\"jugador". $i ."\" class=\"d-flex justify-content-between my-3 jugador flex-column flex-md-row\">
+                <div class=\"d-flex flex-column w-100 w-md-25 mx-3\">
+                <input type=\"text\" name=\"nombre_jugadores[]\" class=\"form-control h-auto form-control-solid py-4 mx-3 border-1 border-primary\" placeholder=\"Nombre\" value=\"" . $jugadores[$i]["nombre_jugador"] . "\" required >
+                <div class=\"invalid-feedback\">Introduce el Nombre del Jugador.</div>
+                </div>
+                <div class=\"d-flex flex-column w-100 mx-3\">
+                <input type=\"text\" name=\"apellidos_jugadores[]\" class=\"form-control h-auto form-control-solid py-4 mx-3 border-1 border-primary\" placeholder=\"Apellidos\" value=\"" . $jugadores[$i]["apellido_jugador"] . "\" required >
+                <div class=\"invalid-feedback\">Introduce el Apellido del Jugador.</div>
+                </div>
+                <div class=\"d-flex flex-column w-100 mx-3\">
+                <input type=\"email\" name=\"correos_jugadores[]\" class=\"form-control h-auto form-control-solid py-4 mx-3 correo border-1 border-primary\" placeholder=\"Correo Corporativo\" value=\"" . $jugadores[$i]["correo_jugador"] . "\" required >
+                <div class=\"invalid-feedback\">Introduce un email válido.</div>
+                </div>
+                <div class=\"d-flex flex-column w-100 mx-3\">
+                <select class=\"form-select h-auto form-control-solid py-4 mx-3\" id=\"curso\" name=\"curso[]\">
+                <option value=\"\">Seleccione el curso...</option>");
+                if($jugadores[$i]["curso_jugador"] == "1 ESO"){
+                print("<option value=\"1 ESO\" selected>1º ESO</option>");
+                }else{
+                print("<option value=\"1 ESO\">1º ESO</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "2 ESO"){
+                print("<option value=\"2 ESO\" selected>2º ESO</option>");
+                }else{
+                print("<option value=\"2 ESO\">2º ESO</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "3 ESO"){
+                print("<option value=\"3 ESO\" selected>3º ESO</option>");
+                }else{
+                print("<option value=\"3 ESO\">3º ESO</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "4 ESO"){
+                print("<option value=\"4 ESO\" selected>4º ESO</option>");
+                }else{
+                print("<option value=\"4 ESO\">4º ESO</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "1 Bach"){
+                print("<option value=\"1 Bach\" selected>1º Bachillerato</option>");
+                }else{
+                print("<option value=\"1 Bach\">1º Bachillerato</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "2 Bach"){
+                print("<option value=\"2 Bach\" selected>2º Bachillerato</option>");
+                }else{
+                print("<option value=\"2 Bach\">2º Bachillerato</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "1 SMR"){
+                print("<option value=\"1 SMR\" selected>1º SMR</option>");
+                }else{
+                print("<option value=\"1 SMR\">1º SMR</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "2 SMR"){
+                print("<option value=\"2 SMR\" selected>2º SMR</option>");
+                }else{
+                print("<option value=\"2 SMR\">2º SMR</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "1 DAW"){
+                print("<option value=\"1 DAW\" selected>1º DAW</option>");
+                }else{
+                print("<option value=\"1 DAW\">1º DAW</option>");
+                }
+                if($jugadores[$i]["curso_jugador"] == "2 DAW"){
+                print("<option value=\"2 DAW\" selected>2º DAW</option>");
+                }else{
+                print("<option value=\"2 DAW\">2º DAW</option>");
+                }
+                print("</select>
+                <div class=\"invalid-feedback\">Introduce el curso del Jugador</div>
+                </div>
+                </div>");
+                                                                        }
+                                                                    } ?> 
                                                                     </div>
                                                                     <button id="btnAdd" class="btn btn-secondary float-end mb-3">Añadir Jugador</button>
                                                                     <button id="btnDel" class="btn btn-secondary float-end mb-3">Eliminar último Jugador</button>

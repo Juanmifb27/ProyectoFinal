@@ -1,4 +1,78 @@
 <?php
+ function CreacionClave()
+{
+	/* Asignamos el juego de caracteres al array $caracteres para generar la contraseña.
+	Podemos añadir mas caracteres para hacer mas segura la contraseña.
+	*/
+	
+	$password="";
+	
+	$minusculas = 'abcdefghijklmnopqrstuvwxyz';
+    $mayusculas = 'ABCDEFGHIJKLMNOPQRSTXYZ';
+    $numeros = '0123456789';
+    $carac_especiales = '@#$%&';
+	
+	/* Introduce la semilla del generador de numeros aleatorios mejorado */
+	mt_srand(microtime() * 1000000);
+	
+	/* Genera un valor aleatorio mejorado con mt_rand, entre 0 y el tamaño del array
+	$caracteres menos 1. Posteriormente vamos concatenando en la cadena $password
+	los caracteres que se van eligiendo aleatoriamente.
+	Vamos a generar la clave de grupo aleatoriamente, formada por 2 caracter y 4 numeros
+	*/
+	
+	//Primer caracter debe de ser una letra y estar en minusculas
+	$key = mt_rand(0,strlen($minusculas)-1);
+	$password = $password . $minusculas[$key];
+        
+    $key = mt_rand(0,strlen($mayusculas)-1);
+	$password = $password . $mayusculas[$key];
+        
+    $key = mt_rand(0,strlen($mayusculas)-1);
+	$password = $password . $mayusculas[$key];
+        
+    $key = mt_rand(0,strlen($numeros)-1);
+	$password = $password . $numeros[$key];
+        
+    $key = mt_rand(0,strlen($minusculas)-1);
+	$password = $password . $minusculas[$key];
+        
+    $key = mt_rand(0,strlen($numeros)-1);
+	$password = $password . $numeros[$key];
+        
+    $key = mt_rand(0,strlen($carac_especiales)-1);
+	$password = $password . $carac_especiales[$key];
+        
+    $key = mt_rand(0,strlen($carac_especiales)-1);
+	$password = $password . $carac_especiales[$key];
+        
+    $key = mt_rand(0,strlen($mayusculas)-1);
+	$password = $password . $mayusculas[$key];
+        
+    $key = mt_rand(0,strlen($numeros)-1);
+	$password = $password . $numeros[$key];
+        
+    $key = mt_rand(0,strlen($minusculas)-1);
+	$password = $password . $minusculas[$key];
+        
+    $key = mt_rand(0,strlen($mayusculas)-1);
+	$password = $password . $mayusculas[$key];
+        
+    $key = mt_rand(0,strlen($mayusculas)-1);
+	$password = $password . $mayusculas[$key];
+        
+    $key = mt_rand(0,strlen($carac_especiales)-1);
+	$password = $password . $carac_especiales[$key];
+        
+    $key = mt_rand(0,strlen($numeros)-1);
+	$password = $password . $numeros[$key];
+        
+    $key = mt_rand(0,strlen($minusculas)-1);
+	$password = $password . $minusculas[$key];
+        
+
+	return $password;
+}
 
 function Seguridad()
 {

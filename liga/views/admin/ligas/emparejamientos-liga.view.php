@@ -13,6 +13,7 @@
     <link href="../../../build/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!-- <link rel="stylesheet" href="../../../build/css/styles.css"> -->
     <link href="../../../build/js/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed">
@@ -177,7 +178,7 @@
                                                 <ol>
                                                     <li>
                                                         <button class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder" data-toggle="modal">
-                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Inscribir Equipo
+                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Generar Emparejamientos
                                                         </button>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
                                                         <h6 class="d-inline">Boton para generar los emparejamientos de la liga, solo se podrán generar si no hay emparejamientos generados, esto genera todos los enfrentamientos entre los equipos, aunque la fecha deberas indicarla tu manualmente desde la tabla inferior</h6>
@@ -194,7 +195,7 @@
                                                                 </svg></span> ELIMINAR EMPAREJAMIENTOS
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Elimina TODOS los emparejamientos de la liga, <strong class="text-danger">No usar una vez empezada la liga, esto es IRREVERSIBLE</strong>.</h6>
+                                                        <h6 class="d-inline">Elimina TODOS los emparejamientos de la liga, <strong class="text-danger">No usar una vez empezada la liga, esto es IRREVERSIBLE,</strong>. SOLO elimina los emparejamientos, los resultados y por lo tanto goles y puntos de cada partido se quedan reflejados en la clasificación.</h6>
                                                     </li>
                                                     <br>
                                                     <li>
@@ -202,16 +203,23 @@
                                                             <span class="svg-icon svg-icon-white"><img src="../../../build/assets/img/scoreboard.gif" width="24px" height="24px"></span>
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Este botón solo estará disponible si la fecha del partido ya ha pasado. Abre una ventana donde podrás indicar el resultado del partido, actualizando automáticamente el marcador de clasificación <strong>Una vez indicado el Resultado, este boton DESAPARECERÁ</strong> y deberas ajustar los goles y los puntos desde el menú de la liga</h6>
+                                                        <h6 class="d-inline">Este botón solo estará disponible si la fecha del partido ya ha pasado y la fecha del partido ya está indicada (no es "0000-00-00"). Abre una ventana donde podrás indicar el resultado del partido, actualizando automáticamente el marcador de clasificación <strong>Una vez indicado el Resultado, este boton DESAPARECERÁ</strong> y deberas ajustar los goles y los puntos desde el menú de la liga o eliminar el resultado con el otro botón y volver a indicarlo.</h6>
                                                     </li>
-                                                    <br>
                                                     <br>
                                                     <li>
                                                         <a class="btn btn-info btn-pill btn-sm font-weight-bold">
                                                             <span class="svg-icon svg-icon-default"><i class="fa-solid fa-magnifying-glass"></i></span> MODIFICAR
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Sirve para indicar la fecha del partido, tambien puedes introducir manualmente el resultado del partido aunque <strong>esto NO actualizará la clasificación automáticamente</strong>.</h6>
+                                                        <h6 class="d-inline">Sirve para cambiar la fecha del partido, <strong>Recuerda introducir la fecha del partido</strong>.</h6>
+                                                    </li>
+                                                    <br>
+                                                    <li>
+                                                        <a class="">
+                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-eraser text-danger"></i></span>
+                                                        </a>
+                                                        <i class="fa-solid fa-arrow-right text-dark"></i>
+                                                        <h6 class="d-inline">Sirve para resetear el resultado del partido, esto hará como si el partido no se hubiera jugado aún, quitandole tambien los puntos a los equipos que han participado en ese partido y los goles a favor y en contra.</h6>
                                                     </li>
                                                 </ol>
                                             </div>
@@ -234,21 +242,21 @@
                                                                 <span class="svg-icon svg-icon-default svg-icon"><i class="fa-solid fa-trash"></i></span> Eliminar Emparejamientos
                                                             </a>
                                                         </div>
-                                                        <div class="modal fade" id="ModalEliminarEquipo" tabindex="-1" role="dialog" aria-labelledby="CancelarModal" aria-hidden="true">
-                                                                    //         <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                    //             <div class="modal-content">
-                                                                    //                 <div class="modal-body">
-                                                                    //                     Va a eliminar el equipo <strong>" . $tuplaEquipos["nombre_equipo"] . "</strong> y todos los jugadores inscritos en él.<br> ¿Está seguro de que quiere eliminarlo?
-                                                                    //                 </div>
-                                                                    //                 <div class="modal-footer">
-                                                                    //                     <button type="button" class="btn btn-light-primary btn-pill font-weight-bold" data-dismiss="modal">CANCELAR</button>
-                                                                    //                     <a href="detalles-liga.php?liga_id=$liga_id&id_equipo_del=" . $tuplaEquipos["id"] . "" class="btn btn-primary btn-pill font-weight-bold">CONFIRMAR</a>
-                                                                    //                 </div>
-                                                                    //             </div>
-                                                                    //         </div>
-                                                                    //     </div>
+                                                        <div class="modal fade" id="ModalEliminarEmparejamientos" tabindex="-1" role="dialog" aria-labelledby="CancelarModal" aria-hidden="true">
+                                                         <div class="modal-dialog modal-dialog-centered" role="document">
+                                                             <div class="modal-content">
+                                                                 <div class="modal-body">
+                                                                     Va los emparejamientos  de <strong>" <?php echo $liga_nombre;?>"</strong><br> ¿Está seguro de que quiere eliminarlo?, NO lo hagas si estas a mitad de la liga;
+                                                                 </div>
+                                                                 <div class="modal-footer">
+                                                                     <button type="button" class="btn btn-light-primary btn-pill font-weight-bold" data-dismiss="modal">CANCELAR</button>
+                                                                     <a href="emparejamientos-liga.php?liga_id=<?php echo $liga_id;?>&id_liga_del=<?php echo $liga_id;?>" class="btn btn-primary btn-pill font-weight-bold">CONFIRMAR</a>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                                         </div>
                                                         <div class="mb-5 botonera text-right d-inline-block">
-                                                            <a href="generar-emparejamiento.php?liga_id=<?php echo $liga_id ?>" class="btn btn-lg btn-primary btn-pill font-weight-bolder">
+                                                            <a href="emparejamientos-liga.php?liga_id=<?php echo $liga_id;?>&liga_id_emparejamientos=<?php echo $liga_id;?>" class="btn btn-lg btn-primary btn-pill font-weight-bolder">
                                                                 <span class="svg-icon svg-icon-default svg-icon"><i class="fa-solid fa-plus"></i></span> Generar Emparejamientos
                                                             </a>
                                                         </div>
@@ -260,12 +268,15 @@
                                                         <table class="table table-striped table-active" id="TablaLigas">
                                                             <thead>
                                                                 <tr class="">
-                                                                    <th>JORNADA</th>
-                                                                    <th>EQUIPO LOCAL</th>
-                                                                    <th>GOLES LOCAL</th>
-                                                                    <th>GOLES VISITANTE</th>
-                                                                    <th>EQUIPO VISITANTE</th>
-                                                                    <th>FECHA PARTIDO</th>
+                                                                    <th class="text-center">JORNADA</th>
+                                                                    <th class="text-center">EQUIPO LOCAL</th>
+                                                                    <th class="text-center">GOLES LOCAL</th>
+                                                                    <th class="text-center">GOLES VISITANTE</th>
+                                                                    <th class="text-center">EQUIPO VISITANTE</th>
+                                                                    <th class="text-center">FECHA PARTIDO</th>
+                                                                    <th class="no-sort"></th>
+                                                                    <th class="no-sort"></th>
+                                                                    <th class="no-sort"></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -289,6 +300,9 @@
                                                                         $tuplaEquipo = $conexion->BD_GetTupla($resEquipo);
                                                                         print("<td class='text-center bg-secondary text-light' colspan='4'>" .  $tuplaEquipo["nombre_equipo"] . "</td>
                                                                         <td class='text-center bg-secondary text-light'>DESCANSA</td>
+                                                                        <td class='text-center bg-secondary text-light'></td>
+                                                                        <td class='text-center bg-secondary text-light'></td>
+                                                                        <td class='text-center bg-secondary text-light'></td>
                                                                         ");
                                                                     } else {
                                                                         $sql = "SELECT * FROM equipos where id=$tuplaEmparejamiento[id_local]";
@@ -300,11 +314,261 @@
                                                                         <td class='text-center'>" . $tuplaEmparejamiento["goles_visitante"] . "</td>");
                                                                         $sql = "SELECT * FROM equipos where id=$tuplaEmparejamiento[id_visitante]";
                                                                         $resEquipo = $conexion->BD_Consulta($sql);
-                                                                        $tuplaEquipo = $conexion->BD_GetTupla($resEquipo);
+                                                                        $tuplaEquipo2 = $conexion->BD_GetTupla($resEquipo);
                                                                         print("
-                                                                        <td class='text-center'>" . $tuplaEquipo["nombre_equipo"] . "</td>
+                                                                        <td class='text-center'>" . $tuplaEquipo2["nombre_equipo"] . "</td>
                                                                         <td class='text-center'>" . $tuplaEmparejamiento["fecha_partido"] . "</td>
                                                                         ");
+                                                                        if($tuplaEmparejamiento["fecha_partido"] <= date("Y-m-d") && $tuplaEmparejamiento["fecha_partido"] != "0000-00-00" && $tuplaEmparejamiento['resultado'] != true){
+
+                                                                        print("<td class=\"text-center\"><span class=\"mb-1 d-block mb-1 fs-7\"><a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#kt_modal_mod_resultado_" . $tuplaEmparejamiento['id'] . "\" data-toggle=\"tooltip\" data-bs-original-title=\"Indicar Resultado\"><span class=\"svg-icon svg-icon-white\"><img src=\"../../../build/assets/img/scoreboard.gif\" width=\"24px\" height=\"24px\"></span></a></span></td>");
+                                                                        }else{
+                                                                            print("<td></td>");
+                                                                        }
+                                                                        print("<td class=\"text-center\"><span class=\"btn btn-info btn-pill btn-sm font-weight-bold text-white\"><a href=\"#\" class=\"text-white\"data-bs-toggle=\"modal\" data-bs-target=\"#kt_modal_mod_fecha_" . $tuplaEmparejamiento['id'] . "\" data-toggle=\"tooltip\" data-bs-original-title=\"Modificar Fecha\">
+                                                            <span class=\"svg-icon svg-icon-default text-white\"><i class=\"fa-solid fa-magnifying-glass\"></i></span> MODIFICAR
+                                                        </a></span></td>");
+                                                        if($tuplaEmparejamiento['resultado'] == true){
+                                                        print("
+                                                        <td class=\"text-center\"><span class=\"mb-1 d-block mb-1 fs-7\">
+                                                                <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#kt_modal_del_emparejamiento_" . $tuplaEmparejamiento['id'] . "\" data-toggle=\"tooltip\" data-bs-original-title=\"Eliminar Resultado\">
+                                                                    <span class=\"svg-icon svg-icon-primary svg-icon-2\">
+                                                                    <i class=\"fa-solid fa-eraser text-danger\"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </span></td>");
+                                                        }else{
+                                                            print("<td></td>");
+                                                        }
+                                                                        print("</tr>");
+                                                                        $imprime_modales .= "<div class=\"modal fade\" id=\"kt_modal_mod_fecha_" . $tuplaEmparejamiento['id'] . "\" tabindex=\"-1\" aria-hidden=\"true\">
+                                                        <!--begin::Modal dialog-->
+                                                        <div class=\"modal-dialog modal-dialog-centered mw-900px\">
+                                                            <!--begin::Modal content-->
+                                                            <div class=\"modal-content\">
+                                                                <!--begin::Modal header-->
+                                                                <div class=\"modal-header\">
+                                                                    <!--begin::Modal title-->
+                                                                    <h2>Modificar Fecha Partido</h2>
+                                                                    <!--end::Modal title-->
+                                                                    <!--begin::Close-->
+                                                                    <div class=\"btn btn-sm btn-icon btn-active-color-primary\" data-bs-dismiss=\"modal\">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                        <span class=\"svg-icon svg-icon-1\">
+                                                                                <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\">
+                                                                                    <rect opacity=\"0.5\" x=\"6\" y=\"17.3137\" width=\"16\" height=\"2\" rx=\"1\" transform=\"rotate(-45 6 17.3137)\" fill=\"currentColor\" />
+                                                                                    <rect x=\"7.41422\" y=\"6\" width=\"16\" height=\"2\" rx=\"1\" transform=\"rotate(45 7.41422 6)\" fill=\"currentColor\" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </div>
+                                                                    <!--end::Close-->
+                                                                </div>
+                                                                <!--end::Modal header-->
+                                                                <!--begin::Modal body-->
+                                                                <div class=\"modal-body p-1\">
+                                                
+                                                                    <form autocomplete=\"off\" class=\"mx-auto w-100 p-7\" method=\"POST\" action=\"./emparejamientos-liga.php?liga_id=" . $liga_id . "\" enctype=\"multipart/form-data\">
+                                                                        <input type=\"hidden\" name=\"aux_fecha_mod\" value=\"" . $tuplaEmparejamiento['id'] . "\">
+                    
+                                                                        <div class=\"card\">
+                                                
+                                                                            <div class=\"card-body px-0\">
+                                                
+                                                                                <!--begin::Tab Content-->
+                                                                                <div class=\"tab-content\">
+                                                                                    <!--begin::Tab panel-->
+                                                                                    <div id=\"\" class=\"row p-0\">
+                                                                                                <div class=\"col-xl-12\">
+                                                
+                                                                                                    <!--begin::Input group-->
+                                                                                                    <div class=\"fv-row mb-5\">
+                                                                                                        <!--begin::Label-->
+                                                                                                        <label class=\"form-label required\">Fecha Partido</label>
+                                                                                                        <!--end::Label-->
+                                                                                                        <!--begin::Input-->
+                                                                                                        <input type=\"date\" name=\"fecha_mod\" class=\"form-control form-control-lg form-control-color w-100\" value=\"" . $tuplaEmparejamiento['fecha_partido'] ."\" required/>
+                                                                                                        <!--end::Input-->
+                                                                                                    </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                </div>
+                                                                                <!--end::Tab Content-->
+                                                                            </div>
+                                                
+                                                                            <div class=\"\" style=\"text-align: right;\">
+                                                                                <button type=\"reset\" data-toggle=\"dismiss-modal\" data-bs-dismiss=\"modal\" class=\"btn btn-light me-3\">Cancelar</button>
+                                                                                <button type=\"submit\" id=\"\" class=\"btn btn-primary\">
+                                                                                    <span class=\"indicator-label\">Guardar</span>
+                                                                                </button>
+                                                                            </div>
+                                                
+                                                                            <!--end::Card body-->
+                                                                        </div>
+                                                                    </form>
+                                                
+                                                                </div>
+                                                                <!--end::Modal body-->
+                                                            </div>
+                                                            <!--end::Modal content-->
+                                                        </div>
+                                                        <!--end::Modal dialog-->
+                                                    </div>";
+                                                                        $imprime_modales .= "<div class=\"modal fade\" id=\"kt_modal_mod_resultado_" . $tuplaEmparejamiento['id'] . "\" tabindex=\"-1\" aria-hidden=\"true\">
+                                                        <!--begin::Modal dialog-->
+                                                        <div class=\"modal-dialog modal-dialog-centered mw-900px\">
+                                                            <!--begin::Modal content-->
+                                                            <div class=\"modal-content\">
+                                                                <!--begin::Modal header-->
+                                                                <div class=\"modal-header\">
+                                                                    <!--begin::Modal title-->
+                                                                    <h2>Dar Resultado del partido</h2>
+                                                                    <!--end::Modal title-->
+                                                                    <!--begin::Close-->
+                                                                    <div class=\"btn btn-sm btn-icon btn-active-color-primary\" data-bs-dismiss=\"modal\">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                        <span class=\"svg-icon svg-icon-1\">
+                                                                                <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\">
+                                                                                    <rect opacity=\"0.5\" x=\"6\" y=\"17.3137\" width=\"16\" height=\"2\" rx=\"1\" transform=\"rotate(-45 6 17.3137)\" fill=\"currentColor\" />
+                                                                                    <rect x=\"7.41422\" y=\"6\" width=\"16\" height=\"2\" rx=\"1\" transform=\"rotate(45 7.41422 6)\" fill=\"currentColor\" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </div>
+                                                                    <!--end::Close-->
+                                                                </div>
+                                                                <!--end::Modal header-->
+                                                                <!--begin::Modal body-->
+                                                                <div class=\"modal-body p-1\">
+                                                
+                                                                    <form autocomplete=\"off\" class=\"mx-auto w-100 p-7\" method=\"POST\" action=\"./emparejamientos-liga.php?liga_id=" . $liga_id . "\" enctype=\"multipart/form-data\">
+                                                                        <input type=\"hidden\" name=\"aux_resultado_mod\" value=\"" . $tuplaEmparejamiento['id'] . "\">
+                                                                        <input type=\"hidden\" name=\"aux_resultado_local_mod\" value=\"" . $tuplaEmparejamiento['id_local'] . "\">
+                                                                        <input type=\"hidden\" name=\"aux_resultado_visitante_mod\" value=\"" . $tuplaEmparejamiento['id_visitante'] . "\">
+                    
+                                                                        <div class=\"card\">
+                                                
+                                                                            <div class=\"card-body px-0\">
+                                                
+                                                                                <!--begin::Tab Content-->
+                                                                                <div class=\"tab-content\">
+                                                                                    <!--begin::Tab panel-->
+                                                                                    <div id=\"\" class=\"row p-0\">
+                                                                                                <div class=\"col-xl-6\">
+                                                
+                                                                                                    <!--begin::Input group-->
+                                                                                                    <div class=\"fv-row mb-5\">
+                                                                                                        <!--begin::Label-->
+                                                                                                        <label class=\"form-label required\">Goles " . $tuplaEquipo['nombre_equipo'] ."</label>
+                                                                                                        <!--end::Label-->
+                                                                                                        <!--begin::Input-->
+                                                                                                        <input type=\"number\" min=\"0\" name=\"goles_local_mod\" class=\"form-control form-control-lg form-control-color w-100\" value=\"" . $tuplaEmparejamiento['goles_local'] ."\" required/>
+                                                                                                        <!--end::Input-->
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class=\"col-xl-6\">
+                                                
+                                                                                                    <!--begin::Input group-->
+                                                                                                    <div class=\"fv-row mb-5\">
+                                                                                                        <!--begin::Label-->
+                                                                                                        <label class=\"form-label required\">Goles " . $tuplaEquipo2['nombre_equipo'] ."</label>
+                                                                                                        <!--end::Label-->
+                                                                                                        <!--begin::Input-->
+                                                                                                        <input type=\"number\" min=\"0\" name=\"goles_visitante_mod\" class=\"form-control form-control-lg form-control-color w-100\" value=\"" . $tuplaEmparejamiento['goles_visitante'] ."\" required/>
+                                                                                                        <!--end::Input-->
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!--end::Tab Content-->
+                                                                            </div>
+                                                
+                                                                            <div class=\"\" style=\"text-align: right;\">
+                                                                                <button type=\"reset\" data-toggle=\"dismiss-modal\" data-bs-dismiss=\"modal\" class=\"btn btn-secondary me-3\">Cancelar</button>
+                                                                                <button type=\"submit\" id=\"\" class=\"btn btn-primary\">
+                                                                                    <span class=\"indicator-label\">Guardar</span>
+                                                                                </button>
+                                                                            </div>
+                                                
+                                                                            <!--end::Card body-->
+                                                                        </div>
+                                                                    </form>
+                                                
+                                                                </div>
+                                                                <!--end::Modal body-->
+                                                            </div>
+                                                            <!--end::Modal content-->
+                                                        </div>
+                                                        <!--end::Modal dialog-->
+                                                    </div>";
+                                                    $imprime_modales .= "<div class=\"modal fade\" id=\"kt_modal_del_emparejamiento_" . $tuplaEmparejamiento['id'] . "\" tabindex=\"-1\" aria-hidden=\"true\">
+                                                        <!--begin::Modal dialog-->
+                                                        <div class=\"modal-dialog modal-lg modal-dialog-centered mw-900px\">
+                                                            <!--begin::Modal content-->
+                                                            <div class=\"modal-content\">
+                                                                <!--begin::Modal header-->
+                                                                <div class=\"modal-header\">
+                                                                    <!--begin::Modal title-->
+                                                                    <h2>Modificar Fecha Partido</h2>
+                                                                    <!--end::Modal title-->
+                                                                    <!--begin::Close-->
+                                                                    <div class=\"btn btn-sm btn-icon btn-active-color-primary\" data-bs-dismiss=\"modal\">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                        <span class=\"svg-icon svg-icon-1\">
+                                                                                <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\">
+                                                                                    <rect opacity=\"0.5\" x=\"6\" y=\"17.3137\" width=\"16\" height=\"2\" rx=\"1\" transform=\"rotate(-45 6 17.3137)\" fill=\"currentColor\" />
+                                                                                    <rect x=\"7.41422\" y=\"6\" width=\"16\" height=\"2\" rx=\"1\" transform=\"rotate(45 7.41422 6)\" fill=\"currentColor\" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </div>
+                                                                    <!--end::Close-->
+                                                                </div>
+                                                                <!--end::Modal header-->
+                                                                <!--begin::Modal body-->
+                                                                <div class=\"modal-body p-1\">
+                                                
+                                                                    <form autocomplete=\"off\" class=\"mx-auto w-100 p-7\" method=\"POST\" action=\"./emparejamientos-liga.php?liga_id=" . $liga_id . "\" enctype=\"multipart/form-data\">
+                                                                        <input type=\"hidden\" name=\"aux_emparejamiento_del\" value=\"" . $tuplaEmparejamiento['id'] . "\">
+                                                                        <input type=\"hidden\" name=\"aux_emparejamiento_del_goles_local\" value=\"" . $tuplaEmparejamiento['goles_local'] . "\">
+                                                                        <input type=\"hidden\" name=\"aux_emparejamiento_del_goles_visitante\" value=\"" . $tuplaEmparejamiento['goles_visitante'] . "\">
+                                                                        <input type=\"hidden\" name=\"aux_emparejamiento_del_id_local\" value=\"" . $tuplaEmparejamiento['id_local'] . "\">
+                                                                        <input type=\"hidden\" name=\"aux_emparejamiento_del_id_visitante\" value=\"" . $tuplaEmparejamiento['id_visitante'] . "\">
+                    
+                                                                        <div class=\"card\">
+                                                
+                                                                            <div class=\"card-body px-0\">
+                                                
+                                                                                <!--begin::Tab Content-->
+                                                                                <div class=\"tab-content\">
+                                                                                <h4>Vas a reiniciar el resultado de este emparejamiento \"" . $tuplaEquipo["nombre_equipo"] ." " . $tuplaEmparejamiento["goles_local"] . " - " . $tuplaEmparejamiento["goles_visitante"] . " " . $tuplaEquipo2["nombre_equipo"] . "\", esto influirá tambien en la clasificación de la liga</h4>
+                                                                                    <!--begin::Tab panel-->
+                                                                                    
+                                                                                </div>
+                                                                                </div>
+                                                                                <!--end::Tab Content-->
+                                                                            </div>
+                                                
+                                                                            <div class=\"\" style=\"text-align: right;\">
+                                                                                <button type=\"reset\" data-toggle=\"dismiss-modal\" data-bs-dismiss=\"modal\" class=\"btn btn-light me-3\">Cancelar</button>
+                                                                                <button type=\"submit\" id=\"\" class=\"btn btn-primary\">
+                                                                                    <span class=\"indicator-label\">Eliminar</span>
+                                                                                </button>
+                                                                            </div>
+                                                
+                                                                            <!--end::Card body-->
+                                                                        </div>
+                                                                    </form>
+                                                
+                                                                </div>
+                                                                <!--end::Modal body-->
+                                                            </div>
+                                                            <!--end::Modal content-->
+                                                        </div>
+                                                        <!--end::Modal dialog-->
+                                                    </div>";
                                                                     }
                                                                     // Hacer botones Abrir modal donde indicar el resultado, y boton de modificar manualmente el resultado (esto no actualizará la clasificación) y fecha
                                                                     // print("<td class=\"text-right\">
@@ -364,6 +628,9 @@
                     <!--end::Entry-->
                 </div>
                 <!--end::Content-->
+                <?php print($imprime_modales);?>
+
+
                 <div class="modal fade" id="NuevaLigaModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">

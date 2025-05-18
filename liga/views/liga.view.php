@@ -19,7 +19,8 @@
     <section class="container mt-5 mb-5 d-flex flex-column flex-grow-1 justify-content-center">
         <div class="row w-100 h-100 d-flex justify-content-center align-items-center">
 
-            <?php if ($errores != "") {
+            <?php 
+            if ($errores != "") {
                 print("<div class=\" bg-danger color-white\">
                 <p>" . $errores . "</p>
                 </div>");
@@ -67,11 +68,12 @@
                         aria-labelledby=\"grupo" . $grupos[$i] . "-tab\">
                         <div class=\"row\">
                         <!-- Tabla Clasificación Grupo " . $grupos[$i] . " -->
-                        <div class=\"col-12 col-lg-6 mb-4 tabla\">
+                        <div class=\"col-12 col-lg-6 mb-4 tabla table-responsive mh-100\">
                         <h3 class=\"text-center\">Clasificación Grupo " . $grupos[$i] . "</h3>
+                        <div class=\"table-responsive\">
                         <table
                         class=\"table table-bordered table-striped\"
-                        id=\"tabla-clasificacionA\">
+                        id=\"tabla-clasificacion" . $grupos[$i] ."\">
                         <thead>
                         <tr>
                         <th>Posición</th>
@@ -90,16 +92,29 @@
                         for ($j = 0; $j < count($equipos_liga); $j++) {
                             if (isset($equipos_liga[$j]["id_liga"])) {
                                 if ($equipos_liga[$j]["id_liga"] == $liga_seleccionada[$i]["id"]) {
+                                    if($equipos_liga[$j]["id"] == $equipo_id){
                                     print("
-                                    <tr>
+                                    <tr class=\"text-warning\">
                                     <td>$posicion</td>
-                                    <td>" . $equipos_liga[$j]["nombre_equipo"] . "</td>
+                                    <td> <img class=\"img-fluid\" width=\"50\" height=\"50\" src=\"../build/assets/img/equipos/" . $equipos_liga[$j]["equipo_imagen"] ."\">" . $equipos_liga[$j]["nombre_equipo"] . "</td>
                                     <td>" . $equipos_liga[$j]["puntos"] . "</td>
                                     <td>" . $equipos_liga[$j]["partidos_jugados"] . "</td>
                                     <td>" . $equipos_liga[$j]["goles_a_favor"] . "</td>
                                     <td>" . $equipos_liga[$j]["goles_en_contra"] . "</td>
                                     </tr>
                                     ");
+                                    }else{
+                                    print("
+                                    <tr>
+                                    <td>$posicion</td>
+                                    <td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $equipos_liga[$j]["equipo_imagen"] ."\">" . $equipos_liga[$j]["nombre_equipo"] . "</td>
+                                    <td>" . $equipos_liga[$j]["puntos"] . "</td>
+                                    <td>" . $equipos_liga[$j]["partidos_jugados"] . "</td>
+                                    <td>" . $equipos_liga[$j]["goles_a_favor"] . "</td>
+                                    <td>" . $equipos_liga[$j]["goles_en_contra"] . "</td>
+                                    </tr>
+                                    ");
+                                    }
                                     $posicion++;
                                 }
                             }
@@ -109,12 +124,13 @@
                             </tbody>
                             </table>
                             </div>
+                            </div>
                             
                             <!-- Tabla Jornadas Grupo " . $grupos[$i] . " -->
-                            <div class=\"col-12 col-lg-6 mb-4 tabla\">
+                            <div class=\"col-12 col-lg-6 mb-4 tabla table-responsive mh-100\">
                             <h3 class=\"text-center\">Jornadas y Resultados Grupo " . $grupos[$i] . "</h3>
                             <div class=\"table-responsive\" id=\"tabla-jornadas" . $grupos[$i] . "\">
-                            <table class=\"table table-bordered table-striped\">
+                            <table class=\"table table-bordered table-striped\" id=\"tabla-jornadas" . $grupos[$i] ."\">
                             <thead class=\"sticky-top\">
                             <tr>
                             <th>Jornada</th>
@@ -137,11 +153,28 @@
                                         }
 
                                         if ($emparejamientos[$j]["nombre_local"] == $emparejamientos[$j]["nombre_visitante"]) {
+                                             if($emparejamientos[$i]["nombre_local"] == $equipo_nombre){
+                                                 print("<td class=\"text-warning\">" . $emparejamientos[$j]["nombre_local"] . "</td>
+                                                        <td>DESCANSA</td>
+                                                        ");
+                                             }
                                             print("<td>" . $emparejamientos[$j]["nombre_local"] . "</td>
                                                         <td>DESCANSA</td>
                                                         ");
                                         } else {
-                                            print("<td>" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "</td>");
+                                            if($emparejamientos[$i]["nombre_local"] == $equipo_nombre || $emparejamientos[$i]["nombre_visitante"] == $equipo_nombre){
+                                            print("<td class=\"text-warning\"> <img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "<img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
+                                            if ($emparejamientos[$j]["goles_local"] == NULL && $emparejamientos[$j]["goles_visitante"] == NULL) {
+                                                if ($emparejamientos[$j]["fecha_partido"] == "0000-00-00") {
+                                                    print("<td class=\"text-warning\">Sin Determinar</td>");
+                                                } else {
+                                                    print("<td class=\"text-warning\">" . cambiaf_a_normal($emparejamientos[$j]["fecha_partido"]) . "</td>");
+                                                }
+                                            } else {
+                                                print("<td class=\"text-warning\">" . $emparejamientos[$j]["goles_local"] . " - " . $emparejamientos[$j]["goles_visitante"] . "</td>");
+                                            }
+                                            }
+                                            print("<td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "<img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
                                             if ($emparejamientos[$j]["goles_local"] == NULL && $emparejamientos[$j]["goles_visitante"] == NULL) {
                                                 if ($emparejamientos[$j]["fecha_partido"] == "0000-00-00") {
                                                     print("<td>Sin Determinar</td>");
@@ -157,37 +190,6 @@
                                 }
                             }
                         }
-                        //                     <!-- Jornada 1 -->
-                        //                     <tr>
-                        //                     <td rowspan=\"2\">Jornada 1</td>
-                        //                     <td>Rayo Vaticano vs Notthingam Miedo</td>
-                        //                     <td>1 - 3</td>
-                        //                     </tr>
-                        //                     <tr>
-                        //                     <td>Biofrutas vs FC Barceló</td>
-                        //                     <td>0 - 8</td>
-                        //                     </tr>
-                        //                     <!-- Jornada 2 -->
-                        //                     <tr>
-                        //                     <td rowspan=\"2\">Jornada 2</td>
-                        //                     <td>FC Barceló vs Rayo Vaticano</td>
-                        //                     <td>7 - 3</td>
-                        //                     </tr>
-                        //                         <tr>
-                        //                         <td>Notthingam Miedo vs Biofrutas</td>
-                        //                         <td>7 - 0</td>
-                        //                         </tr>
-
-                        //                         <!-- Jornada 3 -->
-                        //                         <tr>
-                        //                         <td rowspan=\"2\">Jornada 3</td>
-                        //                         <td>Rayo Vaticano vs Biofrutas</td>
-                        //                         <td>1 - 0</td>
-                        //                         </tr>
-                        //                         <tr>
-                        //                         <td>FC Barceló vs Notthingam Miedo</td>
-                        //                         <td>1 - 3</td>
-                        //                         </tr>
                         print("
                                                 </tbody>
                                                 </table>
@@ -201,8 +203,9 @@
                 <?php else: ?>
 
                     <!-- Tabla Clasificación -->
-                    <div class="col-12 col-lg-6 mb-4 tabla">
+                    <div class="col-12 col-lg-6 mb-4 table-responsive mh-100">
                         <h3 class="text-center">Clasificación</h3>
+                        <div class=\"table-responsive\">
                         <table class="table table-bordered table-striped" id="tabla-clasificacion">
                             <thead>
                                 <tr class="text-center">
@@ -218,10 +221,22 @@
                                 <?php $posicion = 1;
                                 if (isset($equipos_liga)) {
                                     for ($i = 0; $i < count($equipos_liga); $i++) {
+                                        if($equipos_liga[$i]["id"] == $equipo_id){
+                                        echo "
+                                        <tr class='text-center'>
+                                        <td class='text-warning'>$posicion</td>
+                                        <td class='text-warning'><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $equipos_liga[$i]["equipo_imagen"] ."\">" . $equipos_liga[$i]["nombre_equipo"] . "</td>
+                                        <td class='text-warning'>" . $equipos_liga[$i]["puntos"] . "</td>
+                                        <td class='text-warning'>" . $equipos_liga[$i]["partidos_jugados"] . "</td>
+                                        <td class='text-warning'>" . $equipos_liga[$i]["goles_a_favor"] . "</td>
+                                        <td class='text-warning'>" . $equipos_liga[$i]["goles_en_contra"] . "</td>
+                                        </tr>
+                                        ";
+                                        }
                                         echo "
                                         <tr class='text-center'>
                                         <td>$posicion</td>
-                                        <td>" . $equipos_liga[$i]["nombre_equipo"] . "</td>
+                                        <td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $equipos_liga[$i]["equipo_imagen"] ."\">" . $equipos_liga[$i]["nombre_equipo"] . "</td>
                                         <td>" . $equipos_liga[$i]["puntos"] . "</td>
                                         <td>" . $equipos_liga[$i]["partidos_jugados"] . "</td>
                                         <td>" . $equipos_liga[$i]["goles_a_favor"] . "</td>
@@ -234,15 +249,16 @@
                             </tbody>
                         </table>
                     </div>
+                    </div>
 
                     <!-- Tabla Jornadas y Resultados -->
-                    <div class="col-12 col-lg-6 mb-4 tabla">
+                    <div class="col-12 col-lg-6 mb-4 tabla table-responsive mh-100">
                         <h3 class="text-center">Jornadas y Resultados</h3>
                         <div class="table-responsive" id="tabla-jornadas">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped" id="tablaJornadas">
                                 <thead class="sticky-top">
                                     <tr class="text-center">
-                                        <th>Jornada</th>
+                                        <th class='column-hide'>Jornada</th>
                                         <th>Partido</th>
                                         <th>Resultado</th>
                                     </tr>
@@ -252,7 +268,7 @@
                                     if (isset($emparejamientos)) {
                                         for ($i = 0; $i < count($emparejamientos); $i++) {
                                             print("<tr>");
-                                            if ($i == 0) {
+                                                if ($i == 0) {
                                                 print("<td class='pt-5' rowspan='$partidos_jornadas'>" . $emparejamientos[$i]["jornada"] . "</td>");
                                             }
                                             if ($i != 0 && $emparejamientos[$i]["jornada"] != $emparejamientos[($i - 1)]["jornada"] && $i != (count($emparejamientos) - 1)) {
@@ -260,82 +276,45 @@
                                             }
 
                                             if ($emparejamientos[$i]["nombre_local"] == $emparejamientos[$i]["nombre_visitante"]) {
+                                                if($emparejamientos[$i]["nombre_local"] == $equipo_nombre){
+                                                print("<td class=\"text-warning\">" . $emparejamientos[$i]["nombre_local"] . "</td>
+                                                    <td>DESCANSA</td>
+                                                    ");
+                                                }else{
                                                 print("<td>" . $emparejamientos[$i]["nombre_local"] . "</td>
                                                     <td>DESCANSA</td>
                                                     ");
+                                                }
                                             } else {
-                                                print("<td>" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "</td>");
+                                                if($emparejamientos[$i]["nombre_local"] == $equipo_nombre || $emparejamientos[$i]["nombre_visitante"] == $equipo_nombre){
+                                                    print("<td class=\"text-warning\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "<img class=\"img-fluid\"class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
                                                 if ($emparejamientos[$i]["goles_local"] == NULL && $emparejamientos[$i]["goles_visitante"] == NULL) {
+                                                    if ($emparejamientos[$i]["fecha_partido"] == "0000-00-00") {
+                                                    print("<td class=\"text-warning\">Sin Determinar</td>");
+                                                } else {
+                                                    print("<td class=\"text-warning\">" . cambiaf_a_normal($emparejamientos[$i]["fecha_partido"]) . "</td>");
+                                                }
+                                                } else {
+                                                    print("<td class=\"text-warning\">" . $emparejamientos[$i]["goles_local"] . " - " . $emparejamientos[$i]["goles_visitante"] . "</td>");
+                                                }
+                                                }else{
+
+                                                print("<td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "<img class=\"img-fluid\"class=\"img-fluid\"class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
+                                                if ($emparejamientos[$i]["goles_local"] == NULL && $emparejamientos[$i]["goles_visitante"] == NULL) {
+                                                    if ($emparejamientos[$i]["fecha_partido"] == "0000-00-00") {
+                                                    print("<td>Sin Determinar</td>");
+                                                } else {
                                                     print("<td>" . cambiaf_a_normal($emparejamientos[$i]["fecha_partido"]) . "</td>");
+                                                }
                                                 } else {
                                                     print("<td>" . $emparejamientos[$i]["goles_local"] . " - " . $emparejamientos[$i]["goles_visitante"] . "</td>");
+                                                }
                                                 }
                                                 print("</tr>");
                                             }
                                         }
                                     }
-
-
                                     ?>
-                                    <!-- Jornada 1 -->
-                                    <!-- <tr>
-                                        <td rowspan="3">Jornada 1</td>
-                                        <td>Los Gachones vs Los Colgaos</td>
-                                        <td>9 - 0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Potrillos vs Los Enderpel</td>
-                                        <td>0 - 2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Colgaos</td>
-                                        <td>DESCANSA</td>
-                                    </tr> -->
-
-                                    <!-- Jornada 2 -->
-                                    <!-- <tr>
-                                        <td rowspan="3">Jornada 2</td>
-                                        <td>Los profiteroles vs Los Potrillos</td>
-                                        <td>1 - 0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Colgaos vs EnderPel fc</td>
-                                        <td>0 - 7</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Gachones</td>
-                                        <td>DESCANSA</td>
-                                    </tr> -->
-
-                                    <!-- Jornada 3 -->
-                                    <!-- <tr>
-                                        <td rowspan="3">Jornada 3</td>
-                                        <td>EnderpelFc vs Los Gachones</td>
-                                        <td>7 - 6</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Colgaos vs Los profiteroles</td>
-                                        <td>0 - 5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Potrillos</td>
-                                        <td>Descansa</td>
-                                    </tr> -->
-
-                                    <!-- Jornada 4 -->
-                                    <!-- <tr>
-                                        <td rowspan="3">Jornada 4</td>
-                                        <td>Los Potrillos vs Los Colgaos</td>
-                                        <td>7 - 0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Los Gachones vs Los profiteroles</td>
-                                        <td>5 - 0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EnderpelFc</td>
-                                        <td>Descansa</td>
-                                    </tr>-->
                                 </tbody>
                             </table>
                         </div>
@@ -347,19 +326,21 @@
     </section>
     <?php imprime_pie(); ?>
     <script src="../build/js/bootstrap.bundle.js"></script>
-    <script>
-        window.addEventListener("load", function() {
-            // Obtenemos las tablas
-            const tablaClasificacion = document.getElementById("tabla-clasificacion");
-            const tablaJornadas = document.getElementById("tabla-jornadas");
+    <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>
+ <script>
+        // window.addEventListener("load", function() {
+        //     // Obtenemos las tablas
+        //     const tablaClasificacion = document.getElementById("tabla-clasificacion");
+        //     const tablaJornadas = document.getElementById("tabla-jornadas");
 
-            // Ajustamos la altura de la tabla de Jornadas a la altura de la tabla de Clasificación
-            if (tablaClasificacion && tablaJornadas) {
-                const alturaClasificacion = tablaClasificacion.offsetHeight;
-                tablaJornadas.style.maxHeight = `${alturaClasificacion}px`;
-            }
-        });
-    </script>
+        //     // Ajustamos la altura de la tabla de Jornadas a la altura de la tabla de Clasificación
+        //     if (tablaClasificacion && tablaJornadas) {
+        //         const alturaClasificacion = tablaClasificacion.offsetHeight;
+        //         tablaJornadas.style.maxHeight = `${alturaClasificacion}px`;
+        //     }
+        // });
+     </script>
+
     <script>
         const btnInicioSesion = document.getElementById("IniciarSesion");
         const modalInicioSesion = new bootstrap.Modal(document.getElementById("ModalForm"));
@@ -367,6 +348,7 @@
             modalInicioSesion.show();
         })
     </script>
+
     <!-- funcion filtrado de ua tabla con Js -->
     <!-- Ejemplo de input que lo activa (texto) 
   

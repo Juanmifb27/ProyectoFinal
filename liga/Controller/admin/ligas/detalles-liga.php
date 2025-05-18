@@ -19,11 +19,18 @@ $equipo = new equipo();
 
 if ($_GET["liga_id"]) {
     $liga_id = $_GET["liga_id"];
+    $necesitaEmparejamientos = false;
     $sql = "SELECT * FROM ligas WHERE id=$liga_id";
     $resLiga = $conexion->BD_Consulta($sql);
     $tuplaLiga = $conexion->BD_GetTupla($resLiga);
 
     $liga_nombre = $tuplaLiga["nombre_liga"];
+    $sqlEmparejamiento =  "SELECT * FROM `emparejamientos` where liga_id=$liga_id";
+    $resEmparejamiento = $conexion->BD_Consulta($sqlEmparejamiento);
+    if($conexion->BD_NumeroFilas($resEmparejamiento) == 0){
+        $necesitaEmparejamientos = true;
+    }
+
 }else {
     print("<script>document.location.href='index.php';</script>");
 }

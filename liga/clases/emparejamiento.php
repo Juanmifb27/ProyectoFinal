@@ -16,13 +16,31 @@ class emparejamiento
         $this->equipo = new equipo();
     }
 
-    // FAlta rellenar los values de la consulta con las variables
     function insertar($jornada, $liga_id, $id_local, $id_visitante, $fecha_partido)
     {
-        $consulta = "INSERT INTO emparejamientos(jornada, liga_id, id_local, id_visitante, fecha_partido) VALUES ($jornada, $liga_id, $id_local, $id_visitante, '$fecha_partido')";
+        $consulta = "INSERT INTO emparejamientos(jornada, liga_id, id_local, id_visitante, fecha_partido, resultado) VALUES ($jornada, $liga_id, $id_local, $id_visitante, '$fecha_partido', false)";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }
+
+    function dar_Resultado($goles_local, $goles_visitante, $emparejamiento_id){
+    $consulta = "UPDATE emparejamientos SET goles_local='$goles_local', goles_visitante='$goles_visitante', resultado=true where id=$emparejamiento_id";
+    $res = $this->conexion->BD_Consulta($consulta);
+    return $res;
+    }
+
+    function resetear_Resultado($emparejamiento_id){
+        $consulta = "UPDATE emparejamientos SET goles_local=NULL , goles_visitante=NULL , resultado=false where id=$emparejamiento_id";
+        $res = $this->conexion->BD_Consulta($consulta);
+        return $res;
+    }
+    
+    function dar_Fecha($fecha_partido, $emparejamiento_id){
+        $consulta = "UPDATE emparejamientos SET fecha_partido='$fecha_partido' where id=$emparejamiento_id";
+        $res = $this->conexion->BD_Consulta($consulta);
+        return $res;
+    }
+
 
     function eliminar($condicion)
     {
@@ -58,7 +76,8 @@ class emparejamiento
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }
-    function generarEmparejamientos($liga_id, $liga_nombre)
+
+    function generarEmparejamientos($liga_id)
     {
         
         // Crear Emparejamientos IMPORTANTE
@@ -95,12 +114,6 @@ class emparejamiento
             }
         }
         //hace girar los grupos para el siguiente round
-        echo $liga_nombre . "<br>";
-        echo $N;
-        "<br>";
-
-
-
         for ($j = 0; $j < $N - 1; $j++) { //j son los rounds
 
             //anuncia los grupos

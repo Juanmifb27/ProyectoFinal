@@ -13,6 +13,7 @@
     <link href="../../../build/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!-- <link rel="stylesheet" href="../../../build/css/styles.css"> -->
     <link href="../../../build/js/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.datatables.net/2.3.0/css/dataTables.dataTables.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed">
@@ -224,9 +225,6 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                                        <input type="text" id="InputBuscar" class="form-control mb-5 d-inline" onkeyup="myFunction()" placeholder="Buscar liga..." title="Buscar Liga">
-                                                    </div>
                                                     <div class="mb-5 botonera text-right">
                                                         <button class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder" data-toggle="modal" data-target="#NuevaLigaModal">
                                                             <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Liga
@@ -241,6 +239,7 @@
                                                                 <tr class="">
                                                                     <th data-type="string">NOMBRE</th>
                                                                     <th data-type="number">EQUIPOS INSCRITOS</th>
+                                                                    <th class="no-sort"></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -357,25 +356,8 @@
     <script src="../../../build/js/scripts.bundle.js"></script>
     <!--end::Global Theme Bundle-->
     <!-- <script src="../../../build/js/bootstrap-datepicker.js"></script> -->
+    <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>
     <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("InputBuscar");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("TablaLigas");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
 
         function mostrarAyuda() {
             var ayuda = document.getElementById("ayudaUsuario");
@@ -388,7 +370,30 @@
         }
     </script>
 
-    <script src="../../../build/js/ordenarColumnas.js"></script>
+        <script>
+    $(document).ready(function() {
+            tabla = $('#TablaLigas').DataTable({
+                pageLength: 5,
+                order: [],
+                lengthMenu: [5, 10, 15, 20],
+                columnDefs: [{
+                    targets: 'no-sort',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    targets: 'column-hid',
+                    orderable: false,
+                    searchable: true,
+                    visible: false
+                }],
+                language: {
+                    url: '../../../build/js/datatables/es-ES.json',
+                },
+            });
+        });
+    </script>
+
 </body>
 
 </html>

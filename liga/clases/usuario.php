@@ -12,9 +12,9 @@ class usuario
         $this->conexion = new conexion();
     }
 
-    function insertar($email, $password, $rol, $nombre, $id_jugador, $id_liga, $id_equipo)
+    function insertar($email, $password, $rol, $id_jugador, $id_liga, $id_equipo)
     {
-        $consulta = "INSERT INTO usuarios(email,password,rol,nombre,id_jugador,id_liga,id_equipo) VALUES('$email',$password','$rol','$nombre', '$id_jugador','$id_liga','$id_equipo')";
+        $consulta = "INSERT INTO usuarios(email,password,rol,id_jugador,id_equipo,id_liga) VALUES('$email','$password','$rol','$id_jugador','$id_equipo','$id_liga')";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }
@@ -26,15 +26,15 @@ class usuario
         return $res;
     }
 
-    function modificar($password, $rol, $nombre, $apellidos, $email, $id_liga, $id_equipo)
+    function modificar($password, $rol, $apellidos, $email, $id_liga, $id_equipo)
     {
-        $consulta = "UPDATE usuarios SET password='$password',rol='$rol',nombre='$nombre',apellidos='$apellidos',email='$email',id_liga='$id_liga',id_equipo='$id_equipo'";
+        $consulta = "UPDATE usuarios SET password='$password',rol='$rol',apellidos='$apellidos',email='$email',id_liga='$id_liga',id_equipo='$id_equipo'";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }
     function obtener()
     {
-        $consulta = "SELECT password, rol, nombre, apellidos, email, id_liga, id_equipo FROM usuarios";
+        $consulta = "SELECT password, rol, apellidos, email, id_liga, id_equipo FROM usuarios";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }
@@ -42,16 +42,16 @@ class usuario
     function obtenerConFiltro($condicion, $order)
     {
         if ($condicion == "" && $order != "") {
-            $consulta = "SELECT password, rol, nombre, apellidos, email, id_liga, id_equipo FROM usuarios $order";
+            $consulta = "SELECT password, rol, apellidos, email, id_liga, id_equipo FROM usuarios $order";
         } else {
             if ($order == "" && $condicion != "") {
-                $consulta = "SELECT password, rol, nombre, apellidos, email, id_liga, id_equipo FROM usuarios $condicion";
+                $consulta = "SELECT password, rol, apellidos, email, id_liga, id_equipo FROM usuarios $condicion";
             } else {
                 if ($order != "" && $condicion != "") {
-                    $consulta = "SELECT password, rol, nombre, apellidos, email, id_liga, id_equipo FROM usuarios $condicion $order";
+                    $consulta = "SELECT password, rol, apellidos, email, id_liga, id_equipo FROM usuarios $condicion $order";
                 } else {
                     if ($order == "" && $condicion == "") {
-                        $consulta = "SELECT password, rol, nombre, apellidos, email, id_liga, id_equipo FROM usuarios";
+                        $consulta = "SELECT password, rol, apellidos, email, id_liga, id_equipo FROM usuarios";
                     }
                 }
             }

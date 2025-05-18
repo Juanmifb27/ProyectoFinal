@@ -2,12 +2,12 @@
 
 class conexion{
 
-var $url_sitio="http://localhost/ProyectoFinal/liga/";
+var $url_sitio="http://juanmanueljmfb.free.nf/";
 
-var $bd_nombre_global = "ligarg_";
-var $bd_usuario_global = "root";
-var $bd_password_global = "";
-var $bd_ubicacion_gobal = "localhost";
+var $bd_nombre_global = "if0_38874267_ligarg_";
+var $bd_usuario_global = "if0_38874267";
+var $bd_password_global = "Juanmill0n";
+var $bd_ubicacion_gobal = "sql305.infinityfree.com";
 
 
 // Constructor

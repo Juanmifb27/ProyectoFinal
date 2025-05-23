@@ -13,11 +13,11 @@
     <link rel="stylesheet" href="../build/css/styles.css">
 </head>
 
-<body class="d-flex flex-column" style="height: 100vh;">
+<body class="d-flex flex-column min-vh-100">
     <?php imprime_cabecera($liga_nombre, $vectorUsuario); ?>
     <!-- Sección Clasificación y Jornadas -->
-    <section class="container mt-5 mb-5 d-flex flex-column flex-grow-1 justify-content-center">
-        <div class="row w-100 h-100 d-flex justify-content-center align-items-center">
+    <section class="container mt-2 mb-5 d-flex flex-column flex-grow-1">
+        <div class="row w-100 h-100 mt-2 d-flex justify-content-center align-items-stretch" style="height: 75vh;">
 
             <?php 
             if ($errores != "") {
@@ -59,6 +59,15 @@
                     print("<div class=\"tab-content w-100 mt-4\" id=\"myTabContent\">");
 
                     for ($i = 0; $i < count($liga_seleccionada); $i++) {
+                                                                $equipos_liga_actual = array_filter($equipos_liga, function ($equipo) use ($liga_seleccionada, $i) {
+                                            return $equipo["id_liga"] == $liga_seleccionada[$i]["id"];
+                                        });
+                                        
+                                        // Total de equipos en la liga actual
+                                        $total_equipos_liga = count($equipos_liga_actual);
+                                        
+                                        // Calcular partidos por jornada = equipos / 2
+                                       $partidos_jornadas = ceil($total_equipos_liga / 2);
                         print("
                         <!-- Grupo " . $grupos[$i] . " -->
                         <div
@@ -66,13 +75,13 @@
                         id=\"grupo" . $grupos[$i] . "\"
                         role=\"tabpanel\"
                         aria-labelledby=\"grupo" . $grupos[$i] . "-tab\">
-                        <div class=\"row\">
+                        <div class=\"row d-flex align-items-stretch\">
                         <!-- Tabla Clasificación Grupo " . $grupos[$i] . " -->
-                        <div class=\"col-12 col-lg-6 mb-4 tabla table-responsive mh-100\">
+                        <div class=\"col-12 col-lg-6 mb-4\">
                         <h3 class=\"text-center\">Clasificación Grupo " . $grupos[$i] . "</h3>
-                        <div class=\"table-responsive\">
+                        <div class=\"flex-grow-1\" style=\"max-height: 450px; overflow-y: auto;\">
                         <table
-                        class=\"table table-bordered table-striped\"
+                        class=\"table table-bordered table-striped tabla-clasificacion\"
                         id=\"tabla-clasificacion" . $grupos[$i] ."\">
                         <thead>
                         <tr>
@@ -127,9 +136,10 @@
                             </div>
                             
                             <!-- Tabla Jornadas Grupo " . $grupos[$i] . " -->
-                            <div class=\"col-12 col-lg-6 mb-4 tabla table-responsive mh-100\">
+                            <div class=\"col-12 col-lg-6 mb-4\">
+                            <div class=\"h-100 d-flex flex-column\">
                             <h3 class=\"text-center\">Jornadas y Resultados Grupo " . $grupos[$i] . "</h3>
-                            <div class=\"table-responsive\" id=\"tabla-jornadas" . $grupos[$i] . "\">
+                            <div class=\"flex-grow-1 tabla-jornadas\" id=\"tabla-jornadas" . $grupos[$i] . "\" style=\"max-height: 450px; overflow-y: auto;\">
                             <table class=\"table table-bordered table-striped\" id=\"tabla-jornadas" . $grupos[$i] ."\">
                             <thead class=\"sticky-top\">
                             <tr>
@@ -144,9 +154,11 @@
                             for ($j = 0; $j < count($emparejamientos); $j++) {
                                 if (isset($emparejamientos[$j]["liga_id"])) {
                                     if ($emparejamientos[$j]["liga_id"] == $liga_seleccionada[$i]["id"]) {
+
+
                                         print("<tr class='text-center'>");
                                         if ($j == 0) {
-                                            print("<td class='pt-3' rowspan='$partidos_jornadas'>" . $emparejamientos[$j]["jornada"] . "</td>");
+                                            print("<td class='pt-3' rowspan='" . $partidos_jornadas . "'>" . $emparejamientos[$j]["jornada"] . "</td>");
                                         }
                                         if ($j != 0 && $emparejamientos[$j]["jornada"] != $emparejamientos[($j - 1)]["jornada"] && $j != (count($emparejamientos) - 1)) {
                                             print("<td class='pt-3' rowspan='$partidos_jornadas'>" . $emparejamientos[$j]["jornada"] . "</td>");
@@ -163,7 +175,7 @@
                                                         ");
                                         } else {
                                             if($emparejamientos[$i]["nombre_local"] == $equipo_nombre || $emparejamientos[$i]["nombre_visitante"] == $equipo_nombre){
-                                            print("<td class=\"text-warning\"> <img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "<img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
+                                            print("<td class=\"text-warning\"><div class=\"row align-items-center text-center\"><div class=\"col-3 text-start\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\"></div><div class=\"col-6\">" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "</div><div class=\"col-3 text-end\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></div></div></td>");
                                             if ($emparejamientos[$j]["goles_local"] == NULL && $emparejamientos[$j]["goles_visitante"] == NULL) {
                                                 if ($emparejamientos[$j]["fecha_partido"] == "0000-00-00") {
                                                     print("<td class=\"text-warning\">Sin Determinar</td>");
@@ -174,7 +186,7 @@
                                                 print("<td class=\"text-warning\">" . $emparejamientos[$j]["goles_local"] . " - " . $emparejamientos[$j]["goles_visitante"] . "</td>");
                                             }
                                             }
-                                            print("<td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "<img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
+                                            print("<td><div class=\"row align-items-center text-center\"><div class=\"col-3 text-start\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\"></div><div class=\"col-6\">" . $emparejamientos[$j]["nombre_local"] . " - " . $emparejamientos[$j]["nombre_visitante"] . "</div><div class=\"col-3 text-end\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></div></div></td>");
                                             if ($emparejamientos[$j]["goles_local"] == NULL && $emparejamientos[$j]["goles_visitante"] == NULL) {
                                                 if ($emparejamientos[$j]["fecha_partido"] == "0000-00-00") {
                                                     print("<td>Sin Determinar</td>");
@@ -197,16 +209,18 @@
                                                 </div>
                                                 </div>
                                                 </div>
+                                                </div>
                                                 ");
                     }
                     ?>
                 <?php else: ?>
 
                     <!-- Tabla Clasificación -->
-                    <div class="col-12 col-lg-6 mb-4 table-responsive mh-100">
+                    <div class="col-12 col-lg-6 mb-4">
+                        <div class="h-100 d-flex flex-column">
                         <h3 class="text-center">Clasificación</h3>
-                        <div class=\"table-responsive\">
-                        <table class="table table-bordered table-striped" id="tabla-clasificacion">
+                        <div class="flex-grow-1" style="max-height: 450px; overflow-y: auto;">
+                        <table class="table table-bordered table-striped tabla-clasificacion" id="tabla-clasificacion">
                             <thead>
                                 <tr class="text-center">
                                     <th>Posición</th>
@@ -224,7 +238,7 @@
                                         if($equipos_liga[$i]["id"] == $equipo_id){
                                         echo "
                                         <tr class='text-center'>
-                                        <td class='text-warning'>$posicion</td>
+                                        <td class='text-warning align-middle'>$posicion</td>
                                         <td class='text-warning'><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $equipos_liga[$i]["equipo_imagen"] ."\">" . $equipos_liga[$i]["nombre_equipo"] . "</td>
                                         <td class='text-warning'>" . $equipos_liga[$i]["puntos"] . "</td>
                                         <td class='text-warning'>" . $equipos_liga[$i]["partidos_jugados"] . "</td>
@@ -232,10 +246,10 @@
                                         <td class='text-warning'>" . $equipos_liga[$i]["goles_en_contra"] . "</td>
                                         </tr>
                                         ";
-                                        }
+                                        }else{
                                         echo "
                                         <tr class='text-center'>
-                                        <td>$posicion</td>
+                                        <td class=\"align-middle\">$posicion</td>
                                         <td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $equipos_liga[$i]["equipo_imagen"] ."\">" . $equipos_liga[$i]["nombre_equipo"] . "</td>
                                         <td>" . $equipos_liga[$i]["puntos"] . "</td>
                                         <td>" . $equipos_liga[$i]["partidos_jugados"] . "</td>
@@ -243,19 +257,22 @@
                                         <td>" . $equipos_liga[$i]["goles_en_contra"] . "</td>
                                         </tr>
                                         ";
+                                        }
                                         $posicion++;
                                     }
                                 } ?>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                     </div>
 
                     <!-- Tabla Jornadas y Resultados -->
-                    <div class="col-12 col-lg-6 mb-4 tabla table-responsive mh-100">
+                    <div class="col-12 col-lg-6 mb-4 d-flex">
+                    <div class="h-100 d-flex flex-column">
                         <h3 class="text-center">Jornadas y Resultados</h3>
-                        <div class="table-responsive" id="tabla-jornadas">
-                            <table class="table table-bordered table-striped" id="tablaJornadas">
+                        <div class="flex-grow-1 tabla-jornadas" id="tabla-jornadas" style="max-height: 450px; overflow-y: auto;">
+                            <table class="table table-bordered table-striped " id="tablaJornadas">
                                 <thead class="sticky-top">
                                     <tr class="text-center">
                                         <th class='column-hide'>Jornada</th>
@@ -269,10 +286,10 @@
                                         for ($i = 0; $i < count($emparejamientos); $i++) {
                                             print("<tr>");
                                                 if ($i == 0) {
-                                                print("<td class='pt-5' rowspan='$partidos_jornadas'>" . $emparejamientos[$i]["jornada"] . "</td>");
+                                                print("<td class='align-middle' rowspan='$partidos_jornadas'>" . $emparejamientos[$i]["jornada"] . "</td>");
                                             }
                                             if ($i != 0 && $emparejamientos[$i]["jornada"] != $emparejamientos[($i - 1)]["jornada"] && $i != (count($emparejamientos) - 1)) {
-                                                print("<td class='pt-5' rowspan='$partidos_jornadas'>" . $emparejamientos[$i]["jornada"] . "</td>");
+                                                print("<td class='align-middle' rowspan='$partidos_jornadas'>" . $emparejamientos[$i]["jornada"] . "</td>");
                                             }
 
                                             if ($emparejamientos[$i]["nombre_local"] == $emparejamientos[$i]["nombre_visitante"]) {
@@ -287,7 +304,7 @@
                                                 }
                                             } else {
                                                 if($emparejamientos[$i]["nombre_local"] == $equipo_nombre || $emparejamientos[$i]["nombre_visitante"] == $equipo_nombre){
-                                                    print("<td class=\"text-warning\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "<img class=\"img-fluid\"class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
+                                                    print("<td class=\"text-warning\"><div class=\"row align-items-center text-center\"><div class=\"col-3 text-start\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\"></div><div class=\"col-6\">" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "</div><div class=\"col-3 text-end\"><img class=\"img-fluid\"class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></div></div></td>");
                                                 if ($emparejamientos[$i]["goles_local"] == NULL && $emparejamientos[$i]["goles_visitante"] == NULL) {
                                                     if ($emparejamientos[$i]["fecha_partido"] == "0000-00-00") {
                                                     print("<td class=\"text-warning\">Sin Determinar</td>");
@@ -299,7 +316,7 @@
                                                 }
                                                 }else{
 
-                                                print("<td><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\">" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "<img class=\"img-fluid\"class=\"img-fluid\"class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></td>");
+                                                print("<td><div class=\"row align-items-center text-center\"><div class=\"col-3 text-start\"><img class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_local"] ."\"></div><div class=\"col-6\">" . $emparejamientos[$i]["nombre_local"] . " - " . $emparejamientos[$i]["nombre_visitante"] . "</div><div class=\"col-3 text-end\"><img class=\"img-fluid\"class=\"img-fluid\"class=\"img-fluid\" width=\"50\" height=\"100%\" src=\"../build/assets/img/equipos/" . $emparejamientos[$i]["equipo_imagen_visitante"] ."\"></div></div></td>");
                                                 if ($emparejamientos[$i]["goles_local"] == NULL && $emparejamientos[$i]["goles_visitante"] == NULL) {
                                                     if ($emparejamientos[$i]["fecha_partido"] == "0000-00-00") {
                                                     print("<td>Sin Determinar</td>");
@@ -318,6 +335,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        </div>
                     </div>
             <?php endif;
             } ?>
@@ -325,6 +343,7 @@
         </div>
     </section>
     <?php imprime_pie(); ?>
+    </div>
     <script src="../build/js/bootstrap.bundle.js"></script>
     <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>
  <script>
@@ -341,38 +360,59 @@
         // });
      </script>
 
+ <script>
+//   function igualarAlturas() {
+//     let tablaClasificacion = document.querySelector('.tabla-clasificacion');
+//     let tablaJornadas = document.querySelector('.tabla-jornadas');
+//     let anchura = tablaClasificacion.offsetWidth;
+//     if (window.innerWidth > 768) {
+//       let altura = tablaClasificacion.offsetHeight;
+//       tablaJornadas.style.maxHeight = altura + 'px';
+//       tablaJornadas.style.width = anchura + 'px';
+//     } else {
+//       tablaJornadas.style.height = 'auto';
+//       tablaJornadas.style.width = anchura + 'px';
+//     }
+//   }
+
+//   window.addEventListener('load', igualarAlturas);
+//   window.addEventListener('resize', igualarAlturas);
+//   document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(tab => {
+//     tab.addEventListener('shown.bs.tab', igualarAlturas);
+//   });
+ </script>
+
+ <script>
+   function igualarAlturas() {
+    let tablasClasificacion = document.querySelectorAll('.tabla-clasificacion');
+    let tablasJornadas = document.querySelectorAll('.tabla-jornadas');
+    for(let index = 0; index < tablasClasificacion.length; index++){
+      
+    let anchura = tablasClasificacion[index].offsetWidth;
+    if (window.innerWidth > 768) {
+      let altura = tablasClasificacion[index].offsetHeight;
+      tablasJornadas[index].style.maxHeight = altura + 'px';
+      tablasJornadas[index].style.width = anchura + 'px';
+    } else {
+      tablasJornadas[index].style.height = 'auto';
+      tablasJornadas[index].style.width = anchura + 'px';
+    }
+  }
+    }
+
+  window.addEventListener('load', igualarAlturas);
+  window.addEventListener('resize', igualarAlturas);
+  document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(tab => {
+    tab.addEventListener('shown.bs.tab', igualarAlturas);
+  });
+ </script>
+
     <script>
         const btnInicioSesion = document.getElementById("IniciarSesion");
         const modalInicioSesion = new bootstrap.Modal(document.getElementById("ModalForm"));
         btnInicioSesion.addEventListener("click", function() {
             modalInicioSesion.show();
         })
-    </script>
-
-    <!-- funcion filtrado de ua tabla con Js -->
-    <!-- Ejemplo de input que lo activa (texto) 
-  
- <input type="text" id="InputBuscar" class="form-control mb-5" onkeyup="myFunction()" placeholder="Buscar empresa.." title="Buscar empresa">
- -->
-    <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("InputBuscar");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("TablaEmpresas");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
     </script>
 </body>
 

@@ -155,11 +155,15 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
@@ -275,7 +279,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" onclick="document.location.href='./index.php'" class="text-white btn btn-secondary btn-pill mr-2" data-dismiss="modal">CANCELAR</button>
+                                                            <button type="button" onclick="document.location.href='./detalles-liga.php?liga_id=<?php echo $liga_id ?>'" class="text-white btn btn-secondary btn-pill mr-2" data-dismiss="modal">CANCELAR</button>
                                                             <button type="submit" class="btn btn-primary btn-pill text-white">INSCRIBIR EQUIPO</button>
                                                         </div>
                                                     </form>

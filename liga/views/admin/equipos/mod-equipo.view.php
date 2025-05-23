@@ -143,7 +143,7 @@
                                 <div class="col-xl-12">
                                     <div class="row justify-content-center gap-3 mt-3 align-items-center flex-column flex-md-row">
                                         <div class="mb-5 botonera text-right">
-                                            <a href="index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
+                                            <a href="../ligas/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-trophy"></i></span> Ligas
                                             </a>
                                         </div>
@@ -157,11 +157,15 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
@@ -223,7 +227,23 @@
                                                  </div>
                                                  <div class="form-group col-lg-6 col-sm-6">
                                                      <label for="liga_nombre">Liga del Equipo</label>
-                                                     <input type="text" name="liga_nombre" id="liga_nombre" class="form-control h-auto form-control-solid py-4 px-8" value="<?php echo $equipo_liga; ?>" disabled>
+                                                     <select name="equipo_liga" class="form-select form-selct-lg w-100" >
+                                                     <?php
+                                                     $sqlListaLigas = "SELECT * FROM ligas";
+                                                     $resListaLigas = $conexion->BD_Consulta($sqlListaLigas);
+                                                     $tuplaListaLigas = $conexion->BD_GetTupla($resListaLigas);
+                                                     while($tuplaListaLigas != NULL){
+                                                        if($tuplaListaLigas["id"] == $equipo_id_liga){
+                                                        print("<option value=\"" . $tuplaListaLigas["id"] . "\" selected>" . $tuplaListaLigas["nombre_liga"] . "</option>");
+
+                                                        }else{
+
+                                                        print("<option value=\"" . $tuplaListaLigas["id"] . "\">" . $tuplaListaLigas["nombre_liga"] . "</option>");
+                                                        }
+                                                     $tuplaListaLigas = $conexion->BD_GetTupla($resListaLigas);
+                                                     }
+                                                     ?>
+                                                     </select>
                                                  </div>
                                              </div>
                                              <div class="modal-footer">

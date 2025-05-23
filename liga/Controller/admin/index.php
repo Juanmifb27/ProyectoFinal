@@ -15,8 +15,5 @@ if (!$vectorUsuario) {
 $conexion = new conexion();
 $liga = new liga();
 
-// conseguido leer el array de los jugadores, esto iría en la
-// parte de inscripción del equipo (Para verificar la inscripcion desde el correo).
-
 require '../../views/admin/index.view.php';
 ?>

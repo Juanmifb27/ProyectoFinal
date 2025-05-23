@@ -34,7 +34,7 @@ function imprime_cabecera($section, $vector_return)
     if ($vector_return["rol"] == "AdministradorGeneral") {
       print("<ul class=\"nav\">
       <li class=\"nav-item dropdown\">
-      <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">
+      <a class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">
       <span class=\"svg-icon svg-icon-white text-white\"><i class=\"fa fa-user\"></i></span> <span class='text-white'>$vector_return[email]</span>
       </a>
       <div class=\"dropdown-menu\">
@@ -94,6 +94,10 @@ function imprime_cabecera($section, $vector_return)
           </g>
           </svg></span> Cerrar Sesión
         </a>
+        <a class=\"dropdown-item\" href=\"datosPersonales.php\">
+                  <span class=\"svg-icon svg-icon-primary\"><svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24\" width=\"24\" viewBox=\"0 0 640 512\"><path fill=\"#2B4E84\" d=\"M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l293.1 0c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1l-91.4 0zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z\"/></svg>
+                  </span> Editar Perfil
+        </a>
       </div>
       </li>
       </ul>");
@@ -114,7 +118,7 @@ function imprime_cabecera($section, $vector_return)
               <div class=\"collapse navbar-collapse\" id=\"navbarNav\">
                 <ul class=\"navbar-nav d-flex justify-content-center w-100\">
                   <li class=\"nav-item " . ($active_home != '' ? $active_color : '') . " \">
-                    <a class=\"nav-link $active_home\" aria-current=\"page\" href=\"$root/index.php\" >Home</a>
+                    <a class=\"nav-link $active_home\" aria-current=\"page\" href=\"$root/index.php\" >Inicio</a>
                   </li>");
   // recorremos las ligas existentes para generar sus pestañas
   foreach ($arrayLigas as $liga) {
@@ -149,8 +153,8 @@ function imprime_pie()
   $root = implode("/", $root);
 
 
-  print("    <footer class=\"bg-primary text-white py-4 mt-auto bottom\">
-        <div class=\" row container-md text-center flex-row\">
+  print("    <footer class=\"bg-primary text-white py-4 mt-auto\">
+        <div class=\"container-md d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start\">
             <p class=\"col-md-9 mb-2\">&copy; 2025 Instituto Ruiz Gijón - Todos los derechos reservados. Juan Manuel Ferrera Berlanga</p>
             <a href=\"$root/formulario.php\" class=\"col-md-3 btn btn-secondary\">Inscribirse</a>
         </div>
@@ -169,7 +173,7 @@ function imprime_inicioSesion()
   print("<div class=\"modal fade\" id=\"ModalForm\" tabindex=\"-1\" aria-labelledby=\"ModalFormLabel\" aria-hidden=\"true\">
     <div class=\"modal-dialog modal-dialog-centered\">
       <div class=\"modal-content\">
-        <div class=\"modal-body\">
+        <div class=\"modal-body bg-primary\">
         <div class=\"myform bg-primary\">
         <h1 class=\"text-center\">Iniciar Sesión</h1>
                 <form method=\"Post\" action=\"$root/login.php\">

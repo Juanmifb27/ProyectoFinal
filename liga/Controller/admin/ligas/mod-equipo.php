@@ -60,6 +60,7 @@ if (isset($_POST["aux_DatosEquipo"])) {
     $equipo_correo = $_POST["equipo_correo"];
     $equipo_puntos = $_POST["equipo_puntos"];
     $equipo_imagen = $_POST["aux_Imagen"];
+    $equipo_liga = $_POST["equipo_liga"];
     $ruta = "../../../build/assets/img/equipos/". $equipo_imagen;
     $destino = "../../../build/assets/img/equipos/". $equipo_imagen;
     $equipo_partidos_jugados = $_POST["equipo_partidos_jugados"];
@@ -78,8 +79,10 @@ if (isset($_POST["aux_DatosEquipo"])) {
             }
         }
     }
-
-    $res = $equipo->modificar($equipo_nombre,$equipo_correo, $equipo_imagen, $equipo_puntos, $equipo_partidos_jugados, $equipo_goles_a_favor, $equipo_goles_en_contra, $equipo_id_liga, $equipo_id);
+    $res = $equipo->modificar($equipo_nombre,$equipo_correo, $equipo_imagen, $equipo_puntos, $equipo_partidos_jugados, $equipo_goles_a_favor, $equipo_goles_en_contra, $equipo_liga, $equipo_id);
+    $sqlJugadores = "UPDATE jugadores SET id_liga=$equipo_liga WHERE id_equipo=$equipo_id";
+    $exito = $conexion->BD_Consulta($sqlJugadores);
+    
     $correcto = "Equipo Modificado correctamente";
     print("<script>document.location.href='mod-equipo.php?equipo_id=$equipo_id&correcto=$correcto'</script>");
 }
@@ -111,7 +114,10 @@ if(isset($_POST["aux_nuevoJugador"])){
     }
 }
 
+
+
 // Modificar Jugador
+// Arreglar modificar automaticamente el usuario
 if(isset($_POST["aux_modJugador"])){
     $jugador_id = $_POST["aux_modJugador"];
     $jugador_nombre = $_POST["nombre_jugador"];
@@ -125,6 +131,13 @@ if(isset($_POST["aux_modJugador"])){
         $error = "Ya existe un usuario con ese correo";
         print("<script>document.location.href='mod-equipo.php?equipo_id=$equipo_id&error=$error'</script>");
     }else{
+
+        // Puedo intentarlo desde el id_jugador;
+        $sqlUsuario = "SELECT * FROM usuarios where id_jugador=$jugador_id";
+        $resUsuario = $conexion->BD_Consulta($sqlUsuario);
+        $tuplaUsuario = $conexion->BD_GetTupla($resUsuario);
+
+        $usuario->modificar($usuario_email, $tuplaUsuario['password'], $tuplaUsuario['rol'], $tuplaUsuario['id_jugador'], $liga_id, $equipo_id, $tuplaUsuario["id"]);
         $jugador->modificar($jugador_nombre, $usuario_email, $jugador_curso, $equipo_id, $liga_id, $jugador_id);
         $correcto = "Jugador Modificado correctamente";
         print("<script>document.location.href='mod-equipo.php?equipo_id=$equipo_id&correcto=$correcto'</script>");

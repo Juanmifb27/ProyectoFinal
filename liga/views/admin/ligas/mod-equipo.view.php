@@ -143,7 +143,7 @@
                                 <div class="col-xl-12">
                                     <div class="row justify-content-center gap-3 mt-3 align-items-center flex-column flex-md-row">
                                         <div class="mb-5 botonera text-right">
-                                            <a href="index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
+                                            <a href="../ligas/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-trophy"></i></span> Ligas
                                             </a>
                                         </div>
@@ -157,11 +157,16 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
@@ -222,12 +227,28 @@
                                                      <input type="number" min="0" name="equipo_goles_en_contra" id="equipo_goles_en_contra" class="form-control h-auto form-control-solid py-4 px-8" value="<?php echo  $equipo_goles_en_contra; ?>" require>
                                                  </div>
                                                  <div class="form-group col-lg-6 col-sm-6">
-                                                     <label for="liga_nombre">Liga del Equipo</label>
-                                                     <input type="text" name="liga_nombre" id="liga_nombre" class="form-control h-auto form-control-solid py-4 px-8" value="<?php echo $equipo_liga; ?>" disabled>
+                                                     <label for="equipo_liga">Liga del Equipo</label>
+                                                     <select name="equipo_liga" id="equipo_liga" class="form-select form-select-lg w-100" >
+                                                     <?php
+                                                     $sqlListaLigas = "SELECT * FROM ligas";
+                                                     $resListaLigas = $conexion->BD_Consulta($sqlListaLigas);
+                                                     $tuplaListaLigas = $conexion->BD_GetTupla($resListaLigas);
+                                                     while($tuplaListaLigas != NULL){
+                                                        if($tuplaListaLigas["id"] == $equipo_id_liga){
+                                                        print("<option value=\"" . $tuplaListaLigas["id"] . "\" selected>" . $tuplaListaLigas["nombre_liga"] . "</option>");
+
+                                                        }else{
+
+                                                        print("<option value=\"" . $tuplaListaLigas["id"] . "\">" . $tuplaListaLigas["nombre_liga"] . "</option>");
+                                                        }
+                                                     $tuplaListaLigas = $conexion->BD_GetTupla($resListaLigas);
+                                                     }
+                                                     ?>
+                                                     </select>
                                                  </div>
                                              </div>
                                              <div class="modal-footer">
-                                                 <button type="button" onclick="document.location.href='./index.php'" class="text-white btn btn-secondary btn-pill mr-2" data-dismiss="modal">CANCELAR</button>
+                                                 <button type="button" onclick="document.location.href='./detalles-liga.php?liga_id=<?php echo $equipo_id_liga ?>'" class="text-white btn btn-secondary btn-pill mr-2" data-dismiss="modal">CANCELAR</button>
                                                  <button type="submit" class="btn btn-primary btn-pill text-white">GUARDAR</button>
                                              </div>
                                          </form>
@@ -284,7 +305,7 @@
                         <div class=\"modal-content\">
                             <div class=\"modal-header\">
                                 <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modificando Jugador</h5>
-                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+                                <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">
                                     <i aria-hidden=\"true\" class=\"ki ki-close\"></i>
                                 </button>
                             </div>
@@ -314,7 +335,7 @@
                                     </div>
                                 </div>
                                 <div class=\"modal-footer\">
-                                    <button type=\"button\" class=\"btn btn-secondary btn-pill mr-2 text-white\" data-dismiss=\"modal\">CANCELAR</button>
+                                    <button type=\"button\" class=\"btn btn-secondary btn-pill mr-2 text-white\" data-bs-dismiss=\"modal\">CANCELAR</button>
                                     <input type=\"submit\" class=\"btn btn-primary btn-pill text-white\" value=\"Modificar\">
                                 </div>
                             </form>
@@ -418,7 +439,7 @@
     <script src="../../../build/js/global/plugins.bundle.js"></script> -->
     <script src="../../../build/js/scripts.bundle.js"></script>
     <!--end::Global Theme Bundle-->
-    <script src="../../../build/js/bootstrap-datepicker.js"></script>
+    <!-- <script src="../../../build/js/bootstrap-datepicker.js"></script> -->
     <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>
     <script>
         function mostrarAyuda() {

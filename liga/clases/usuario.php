@@ -14,7 +14,7 @@ class usuario
 
     function insertar($email, $password, $rol, $id_jugador, $id_liga, $id_equipo)
     {
-        $consulta = "INSERT INTO usuarios(email,password,rol,id_jugador,id_equipo,id_liga) VALUES('$email','$password','$rol','$id_jugador','$id_equipo','$id_liga')";
+        $consulta = "INSERT INTO usuarios(email,password,rol,id_jugador,id_equipo,id_liga) VALUES('$email','$password','$rol',$id_jugador,$id_equipo,$id_liga)";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }
@@ -26,9 +26,9 @@ class usuario
         return $res;
     }
 
-    function modificar($password, $rol, $apellidos, $email, $id_liga, $id_equipo)
+    function modificar($email, $password, $rol, $id_jugador, $id_liga, $id_equipo, $id)
     {
-        $consulta = "UPDATE usuarios SET password='$password',rol='$rol',apellidos='$apellidos',email='$email',id_liga='$id_liga',id_equipo='$id_equipo'";
+        $consulta = "UPDATE usuarios SET email='$email', password='$password', rol='$rol', id_jugador=$id_jugador, id_liga=$id_liga,id_equipo=$id_equipo WHERE id=$id";
         $res = $this->conexion->BD_Consulta($consulta);
         return $res;
     }

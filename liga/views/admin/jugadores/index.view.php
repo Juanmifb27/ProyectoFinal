@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración Liga</title>
     <script src="https://kit.fontawesome.com/43cf8b4b5b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
@@ -156,18 +157,22 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
                                         <div class="card-header" style="border: none;">
                                             <div class="card-title">
                                                 <h2 class="card-label font-weight-bolder">
-                                                    Equipos
+                                                    Jugadores
                                                 </h2>
                                                 <div>
                                                     <button class="bg-white border-0 text-center" onclick="mostrarAyuda();"><i class="fa-solid fa-question text-primary"></i></button>
@@ -178,10 +183,10 @@
                                                 <ol>
                                                     <li>
                                                         <button class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder" data-toggle="modal">
-                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Equipo
+                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Jugador
                                                         </button>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Boton para añadir un Equipo, podrás añadir un nuevo equipo y sus jugadores, a cualquier liga.</h6>
+                                                        <h6 class="d-inline">Boton para añadir un Jugador, a cualquier equipo, creanod así su usuario.</h6>
                                                     </li>
                                                     <br>
                                                     <li>
@@ -260,7 +265,7 @@
                                                                     <td class=\"align-middle\">" . $tuplaJugador["nombre_liga"] . "</td>
                                                                     <td class=\"align-middle\">" . $tuplaJugador["nombre_equipo"] . "</td>");
                                                                     print("<td class=\"text-right align-middle\">
-                                                                        <a href=\"mod-jugador.php?equipo_id=" . $tuplaJugador["id"] . "\" class=\"btn btn-primary btn-pill btn-sm font-weight-bold\">
+                                                                        <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#ModalModJugador" . $tuplaJugador["id"] ."\" class=\"btn btn-primary btn-pill btn-sm font-weight-bold\">
                                                                             <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
                                                                                     <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
                                                                                         <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" />
@@ -301,6 +306,108 @@
                                                                             </div>
                                                                         </div>
                                                                     </tr>");
+
+                                                                    print("<div class=\"modal fade\" id=\"ModalModJugador" . $tuplaJugador["id"] ."\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog modal-xl modal-dialog-centered\" role=\"document\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modificando Jugador</h5>
+                                <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">
+                                    <i aria-hidden=\"true\" class=\"ki ki-close\"></i>
+                                </button>
+                            </div>
+                            <form class=\"form\" action=\"index.php\" method=\"POST\">
+                                <input type=\"hidden\" name=\"aux_modJugador\" value=\"" . $tuplaJugador["id"] . "\">
+                                <input type=\"hidden\" name=\"aux_modJugador_liga\" value=\"" . $tuplaJugador["id_liga"] . "\">
+                                <div class=\"modal-body row flex-column flex-md-row justify-content-center align-items-center\">
+                                    <div class=\"form-group col-lg-6\">
+                                        <label for=\"nombre_jugador_mod\">Nombre <span class=\"text-danger\">*</span></label>
+                                        <input type=\"text\" class=\"form-control form-control-xl\" name=\"nombre_jugador_mod\" value=\"" . $tuplaJugador["jugador_nombre"] . "\" required>
+                                    </div>
+                                    <div class=\"form-group col-lg-6\">
+                                        <label for=\"email_jugador\">Email <span class=\"text-danger\">*</span></label>
+                                        <input type=\"email\" class=\"form-control form-control-xl\" name=\"email_jugador_mod\" value=\"" . $tuplaJugador["jugador_correo"] . "\" required>
+                                    </div>
+                                    <div class=\"form-group col-lg-6\">
+                                        <label for=\"equipo_jugador\">Equipo</label>
+                                        <select name=\"equipo_jugador\" class=\"form-select form-select-lg w-100\">");
+                                        $sqlEquipo = "SELECT * FROM equipos";
+                                        $resEquipo = $conexion->BD_Consulta($sqlEquipo);
+                                        $tuplaEquipo = $conexion->BD_GetTupla($resEquipo);
+                                        while($tuplaEquipo != NULL){
+                                            if($tuplaEquipo["id"] == $tuplaJugador["id_equipo"]){
+                                                print("<option value=\"" . $tuplaEquipo["id"] . "\" selected>" . $tuplaEquipo["nombre_equipo"] . "</option>");
+                                            }else{
+                                                print("<option value=\"" . $tuplaEquipo["id"] . "\">" . $tuplaEquipo["nombre_equipo"] . "</option>");
+                                            }
+                                            $tuplaEquipo = $conexion->BD_GetTupla($resEquipo);
+                                        }
+                                        print("</select>
+                                    </div>
+                                    <div class=\"form-group col-lg-6\">
+                                        <label for=\"curso_jugador\">Curso</label>
+                                        <select name=\"curso_jugador\" class=\"form-select form-select-lg w-100\">");
+                                            if($tuplaJugador["jugador_curso"] == "1 ESO"){
+                                            print("<option value=\"1 ESO\" selected>1º ESO</option>");
+                                            }else{
+                                            print("<option value=\"1 ESO\">1º ESO</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "2 ESO"){
+                                            print("<option value=\"2 ESO\" selected>2º ESO</option>");
+                                            }else{
+                                            print("<option value=\"2 ESO\">2º ESO</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "3 ESO"){
+                                            print("<option value=\"3 ESO\" selected>3º ESO</option>");
+                                            }else{
+                                            print("<option value=\"3 ESO\">3º ESO</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "4 ESO"){
+                                            print("<option value=\"4 ESO\" selected>4º ESO</option>");
+                                            }else{
+                                            print("<option value=\"4 ESO\">4º ESO</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "1 Bach"){
+                                            print("<option value=\"1 Bach\" selected>1º Bachillerato</option>");
+                                            }else{
+                                            print("<option value=\"1 Bach\">1º Bachillerato</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "2 Bach"){
+                                            print("<option value=\"2 Bach\" selected>2º Bachillerato</option>");
+                                            }else{
+                                            print("<option value=\"2 Bach\">2º Bachillerato</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "1 SMR"){
+                                            print("<option value=\"1 SMR\" selected>1º SMR</option>");
+                                            }else{
+                                            print("<option value=\"1 SMR\">1º SMR</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "2 SMR"){
+                                            print("<option value=\"2 SMR\" selected>2º SMR</option>");
+                                            }else{
+                                            print("<option value=\"2 SMR\">2º SMR</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "1 DAW"){
+                                            print("<option value=\"1 DAW\" selected>1º DAW</option>");
+                                            }else{
+                                            print("<option value=\"1 DAW\">1º DAW</option>");
+                                            }
+                                            if($tuplaJugador["jugador_curso"] == "2 DAW"){
+                                            print("<option value=\"2 DAW\" selected>2º DAW</option>");
+                                            }else{
+                                            print("<option value=\"2 DAW\">2º DAW</option>");
+                                            }
+                                        print("</select>
+                                    </div>
+                                </div>
+                                <div class=\"modal-footer\">
+                                    <button type=\"button\" class=\"btn btn-secondary btn-pill mr-2 text-white\" data-bs-dismiss=\"modal\">CANCELAR</button>
+                                    <input type=\"submit\" class=\"btn btn-primary btn-pill text-white\" value=\"Modificar\">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>");
 
     print("<div class=\"modal fade\" id=\"ModalEnviarCorreo" . $tuplaJugador["id"] . "\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
                     <div class=\"modal-dialog modal-lg\" role=\"document\">
@@ -436,6 +543,20 @@
                 },
             });
         });
+    </script>
+
+        <!-- Mostrar Contraseña -->
+    <script>
+            // Boton del ojo que ativa el mostrar
+        function togglePassword(userId) {
+            // variable donde se guarda el input de la contraseña
+            const password = document.getElementById(`password-${userId}`);
+            if (password.type == "password") {
+                password.type = 'text';
+            } else {
+                password.type = 'password';
+            }
+        };
     </script>
 
 </body>

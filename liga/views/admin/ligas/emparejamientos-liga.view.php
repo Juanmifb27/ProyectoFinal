@@ -156,11 +156,16 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
@@ -237,6 +242,11 @@
                                                                     //             </svg></span> ELIMINAR
                                                                     //     </a>
                                                     <div class="text-right"> -->
+                                                        <?php
+                                                        $sqlComprobacion = "SELECT * FROM emparejamientos where liga_id=$liga_id";
+                                                        $resComprobacion = $conexion->BD_Consulta($sqlComprobacion);
+                                                        if($conexion->BD_NumeroFilas($resComprobacion) > 1){
+                                                        ?>
                                                         <div class="mb-5 botonera text-right d-inline-block">
                                                             <a href="#" class="btn btn-lg btn-danger btn-pill font-weight-bolder" data-toggle="modal" data-target="#ModalEliminarEmparejamientos">
                                                                 <span class="svg-icon svg-icon-default svg-icon"><i class="fa-solid fa-trash"></i></span> Eliminar Emparejamientos
@@ -254,12 +264,18 @@
                                                                  </div>
                                                              </div>
                                                          </div>
-                                                                         </div>
+                                                        </div>
+                                                        <?php 
+                                                        }else{
+                                                        ?>
                                                         <div class="mb-5 botonera text-right d-inline-block">
                                                             <a href="emparejamientos-liga.php?liga_id=<?php echo $liga_id;?>&liga_id_emparejamientos=<?php echo $liga_id;?>" class="btn btn-lg btn-primary btn-pill font-weight-bolder">
                                                                 <span class="svg-icon svg-icon-default svg-icon"><i class="fa-solid fa-plus"></i></span> Generar Emparejamientos
                                                             </a>
                                                         </div>
+                                                        <?php 
+                                                        }
+                                                        ?>
                                                     </div>
                                                 </div>
 
@@ -570,44 +586,6 @@
                                                         <!--end::Modal dialog-->
                                                     </div>";
                                                                     }
-                                                                    // Hacer botones Abrir modal donde indicar el resultado, y boton de modificar manualmente el resultado (esto no actualizará la clasificación) y fecha
-                                                                    // print("<td class=\"text-right\">
-                                                                    //     <a href=\"mod-equipo.php?equipo_id=" . $tuplaEquipos["id"] . "\" class=\"btn btn-primary btn-pill btn-sm font-weight-bold\">
-                                                                    //         <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
-                                                                    //                 <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
-                                                                    //                     <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" />
-                                                                    //                     <path d=\"M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z\" fill=\"#000000\" fill-rule=\"nonzero\" transform=\"translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) \" />
-                                                                    //                     <rect fill=\"#000000\" opacity=\"0.3\" x=\"5\" y=\"20\" width=\"15\" height=\"2\" rx=\"1\" />
-                                                                    //                 </g>
-                                                                    //             </svg></span> EDITAR
-                                                                    //     </a>
-                                                                    //     <a href=\"#\" class=\"btn btn-danger btn-pill btn-sm font-weight-bold\" data-toggle=\"modal\" data-target=\"#ModalEliminarEquipo" . $tuplaEquipos["id"] . "\">
-                                                                    //         <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
-                                                                    //                 <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
-                                                                    //                     <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" />
-                                                                    //                     <circle fill=\"#000000\" opacity=\"0.3\" cx=\"12\" cy=\"12\" r=\"10\" />
-                                                                    //                     <path d=\"M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z\" fill=\"#000000\" />
-                                                                    //                 </g>
-                                                                    //             </svg></span> ELIMINAR
-                                                                    //     </a>
-                                                                    //     <a href=\"detalles-equipo.php?equipo_id=" . $tuplaEquipos["id"] . "\" class=\"btn btn-info btn-pill btn-sm font-weight-bold\">
-                                                                    //             <span class=\"svg-icon svg-icon-default\"><i class=\"fa-solid fa-magnifying-glass\"></i></span> INSPECCIONAR
-                                                                    //     </a>
-                                                                    // </td>
-                                                                    //     <div class=\"modal fade\" id=\"ModalEliminarEquipo" . $tuplaEquipos["id"] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"CancelarModal\" aria-hidden=\"true\">
-                                                                    //         <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">
-                                                                    //             <div class=\"modal-content\">
-                                                                    //                 <div class=\"modal-body\">
-                                                                    //                     Va a eliminar el equipo <strong>" . $tuplaEquipos["nombre_equipo"] . "</strong> y todos los jugadores inscritos en él.<br> ¿Está seguro de que quiere eliminarlo?
-                                                                    //                 </div>
-                                                                    //                 <div class=\"modal-footer\">
-                                                                    //                     <button type=\"button\" class=\"btn btn-light-primary btn-pill font-weight-bold\" data-dismiss=\"modal\">CANCELAR</button>
-                                                                    //                     <a href=\"detalles-liga.php?liga_id=$liga_id&id_equipo_del=" . $tuplaEquipos["id"] . "\" class=\"btn btn-primary btn-pill font-weight-bold\">CONFIRMAR</a>
-                                                                    //                 </div>
-                                                                    //             </div>
-                                                                    //         </div>
-                                                                    //     </div>
-                                                                    // </tr>");
                                                                     $tuplaEmparejamiento = $conexion->BD_GetTupla($resEmparejamientos);
                                                                 }
                                                                 ?>
@@ -615,6 +593,9 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                                <div class="modal-footer">
+                                        <button type="button" onclick="document.location.href='./detalles-liga.php?liga_id=<?php echo $liga_id ?>'" class="text-white btn btn-secondary btn-pill mr-2" data-dismiss="modal">CANCELAR</button>
+                                                        </div>
                                             </div>
                                         </div>
                                     </div>

@@ -98,7 +98,7 @@
                     } else {
                         print("<option value=\"\" disabled> Seleccione una liga...</option> ");
                     }
-                    $sqlLiga = "SELECT *  FROM ligas";
+                    $sqlLiga = "SELECT id, nombre_liga FROM ligas WHERE id NOT IN ( SELECT liga_id FROM emparejamientos)";
                     $resLiga = $conexion->BD_Consulta($sqlLiga);
                     $tuplaLiga = $conexion->BD_GetTupla($resLiga);
                     while ($tuplaLiga != NULL) {

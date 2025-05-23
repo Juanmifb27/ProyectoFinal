@@ -156,11 +156,15 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
@@ -403,8 +407,8 @@
         <!--end::Page-->
     </div>
 
-    <script src="../../../build/js/global/plugins.bundle.js"></script>
     <script src="../../../build/js/scripts.bundle.js"></script>
+    <script src="../../../build/js/global/plugins.bundle.js"></script>
     <!--end::Global Theme Bundle-->
     <!-- <script src="../../../build/js/bootstrap-datepicker.js"></script> -->
     <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>

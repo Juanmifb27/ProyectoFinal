@@ -120,14 +120,14 @@ if (isset($_POST["equipo"])) {
                             $usuario->insertar($jugadores_correo[$i], $password, "Usuario", $jugador_id, $liga_id, $equipo_id);
                         }
                         $correcto = "Se ha inscrito el equipo correctamente";
-                        print("<script>document.location.href='./detalles-liga.php?liga_id=$liga_id&correcto=$correcto'</script>");
+                        // print("<script>document.location.href='./detalles-liga.php?liga_id=$liga_id&correcto=$correcto'</script>");
                     }
                 }
             }
         }
     }
 }
-
+}
 
 
 

@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración Liga</title>
+
     <script src="https://kit.fontawesome.com/43cf8b4b5b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
@@ -14,11 +16,12 @@
     <!-- <link rel="stylesheet" href="../../../build/css/styles.css"> -->
     <link href="../../../build/js/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="//cdn.datatables.net/2.3.0/css/dataTables.dataTables.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 
-<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed">
+<body id="body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed">
 
-    <div id="kt_header" class="header-mobile align-items-center header-mobile-fixed">
+    <div id="header" class="header-mobile align-items-center header-mobile-fixed">
         <div class="container d-flex align-items-stretch justify-content-between">
             <!--begin::Logo-->
             <div class="d-flex flex-column align-items-center">
@@ -63,13 +66,13 @@
         <!--begin::Page-->
         <div class="d-flex flex-row flex-column-fluid page">
             <!--begin::Wrapper-->
-            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="wrapper">
                 <!--begin::Header-->
-                <div id="kt_header" class="header header-fixed header-light">
+                <div id="header" class="header header-fixed header-light">
                     <!--begin::Container-->
                     <div class="container d-flex align-items-stretch justify-content-between">
                         <!--begin::Header Menu Wrapper-->
-                        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                        <div class="header-menu-wrapper header-menu-wrapper-left" id="header_menu_wrapper">
                             <!--begin::Header Menu-->
                             <!--begin::Brand-->
                             <div class="brand pl-0">
@@ -118,7 +121,7 @@
                 </div>
                 <!--end::Header-->
                 <!--begin::Content-->
-                <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="content d-flex flex-column flex-column-fluid" id="content">
                     <!--begin::Entry-->
                     <div class="d-flex flex-column-fluid">
                         <!--begin::Container-->
@@ -142,7 +145,7 @@
                                 <div class="col-xl-12">
                                     <div class="row justify-content-center gap-3 mt-3 align-items-center flex-column flex-md-row">
                                         <div class="mb-5 botonera text-right">
-                                            <a href="index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
+                                            <a href="../ligas/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-trophy"></i></span> Ligas
                                             </a>
                                         </div>
@@ -158,7 +161,6 @@
                                         </div>
                                         <?php
                                         if($vectorUsuario["rol"] == "AdministradorGeneral"){
-
                                         print("<div class=\"mb-5 botonera text-right\">
                                             <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
                                                 <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
@@ -172,21 +174,21 @@
                                         <div class="card-header" style="border: none;">
                                             <div class="card-title">
                                                 <h2 class="card-label font-weight-bolder">
-                                                    Ligas
+                                                    Usuarios
                                                 </h2>
                                                 <div>
                                                     <button class="bg-white border-0 text-center" onclick="mostrarAyuda();"><i class="fa-solid fa-question text-primary"></i></button>
                                                 </div>
                                             </div>
-                                            <div id="ayudaUsuario" hidden>
+                                            <div id="ayudaUsuario" class="col-12" hidden>
                                                 <h3>Explicación Botones</h3>
                                                 <ol>
                                                     <li>
                                                         <button class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder" data-toggle="modal">
-                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Liga
+                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Usuario
                                                         </button>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Boton para añadir una Liga, si quieres por ejemplo añadir "Liga Inventada" bastaría con introducir el nombre completo y ya, pero si "Liga Inventada" ya existiese, deberás añadir la letra del grupo que vas a crear, recomendable empezar alfabéticamente desde la B</h6>
+                                                        <h6 class="d-inline">Boton para añadir un Usuario, puedes añadir tanto usuarios normales(jugadores) como usuarios administradores</h6>
                                                     </li>
                                                     <br>
                                                     <li>
@@ -200,7 +202,7 @@
                                                                 </svg></span> EDITAR
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Sirve para editar informacion sobre la Liga, en este caso solo el nombre.</h6>
+                                                        <h6 class="d-inline">Sirve para editar informacion sobre el usuario.</h6>
                                                     </li>
                                                     <br>
                                                     <li>
@@ -214,15 +216,15 @@
                                                                 </svg></span> ELIMINAR
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Elimina COMPLETAMENTE la liga seleccionada incluyendo equipos, jugadores y sus usuarios, de la liga correspondiente</h6>
+                                                        <h6 class="d-inline">Elimina COMPLETAMENTE el usuario, en caso de ser un usuario jugador, se eliminará tambien al jugador del equipo asociado</h6>
                                                     </li>
                                                     <br>
                                                     <li>
-                                                        <a class="btn btn-info btn-pill btn-sm font-weight-bold">
-                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-magnifying-glass"></i></span> INSPECCIONAR
+                                                        <a class=">
+                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-paper-plane text-dark"></i></span>
                                                         </a>
                                                         <i class="fa-solid fa-arrow-right text-dark"></i>
-                                                        <h6 class="d-inline">Muestra los equipos que hay en esa liga, ahí podras realizar acciones con esos equipos.</h6>
+                                                        <h6 class="d-inline">Puedes enviar un mensaje al correo asociado a ese usuario, con asunto, cuerpo y archivo.</h6>
                                                     </li>
                                                 </ol>
                                             </div>
@@ -231,19 +233,99 @@
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="mb-5 botonera text-right">
-                                                        <button class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder" data-toggle="modal" data-target="#NuevaLigaModal">
-                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Liga
-                                                        </button>
+                                                        <a class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder" href="#" data-bs-toggle="modal" data-bs-target="#ModalAddUsuario">
+                                                            <span class="svg-icon svg-icon-default"><i class="fa-solid fa-plus"></i></span> Añadir Usuario
+                                                        </a>
                                                     </div>
                                                 </div>
 
+                                        <div class="modal fade" id="ModalAddUsuario" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered" role="dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Añadir Usuario</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i aria-hidden="true" class="ki ki-close"></i>
+                                </button>
+                            </div>
+                            <form class="form" action="index.php" method="POST">
+                                <input type="hidden" name="aux_Usuario">
+                                <div class="modal-body row flex-column flex-md-row justify-content-center align-items-center">
+                                    <div class="form-group col-lg-4">
+                                        <label for="usuario_email">Email <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control form-control-xl" name="usuario_email" required>
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label for="usuario_password">Password <span class="text-danger">*</span> <span ><i onclick="togglePassword(0, this)" class="fa-solid fa-lock text-primary"></i></span></label>
+                                        <input type="password" class="form-control form-control-xl" id="password-0" name="usuario_password" required>
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label for="usuario_rol">Permisos <span class="text-danger">*</span></label>
+                                        <select name="usuario_rol" id="usuario_rol" class="form-select form-select-xl w-100">
+                                        <option value="Usuario">Usuario</option>
+                                        <option value="AdministradorGeneral">Administrador General</option>
+                                        <option value="AdministradorLigas">Administrador Ligas</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-4" id="divNombre" style="display: block;">
+                                        <label for="usuario_nombre">Nombre<span class="text-danger">*</span></label>
+                                        <input type="text" id="usuario_nombre" name="usuario_nombre" class="form-control form-control-xl" required>
+                                    </div>
+                                    <div class="form-group col-lg-4" id="divCurso" style="display: block;">
+                                        <label for="usuario_curso">Curso <span class="text-danger">*</span></label>
+                                        <select name="usuario_curso" id="usuario_curso" class="form-select form-select-xl w-100" required>
+                                        <option value="" disabled selected>Selecciona un curso</option>
+                                        <option value="1 ESO">1º ESO</option>
+                                        <option value="2 ESO">2º ESO</option>
+                                        <option value="3 ESO">3º ESO</option>
+                                        <option value="4 ESO">4º ESO</option>
+                                        <option value="1 Bach">1º Bachillerato</option>
+                                        <option value="2 Bach">2º Bachillerato</option>
+                                        <option value="1 SMR">1º SMR</option>
+                                        <option value="2 SMR">2º SMR</option>
+                                        <option value="1 DAW">1º DAW</option>
+                                        <option value="2 DAW">2º DAW</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-4" id="divEquipo" style="display: block;">
+                                        <label for="usuario_equipo">Equipo <span class="text-danger">*</span></label>
+                                        <select name="usuario_equipo" id="usuario_equipo" class="form-select form-select-xl w-100" required>
+                                        <option value="" disabled selected>Selecciona un curso</option>
+                                        <?php 
+                                        $sqlEquipo = "SELECT * FROM equipos";
+                                        $resEquipo = $conexion->BD_Consulta($sqlEquipo);
+                                        $tuplaEquipo = $conexion->BD_GetTupla($resEquipo);
+                                        while($tuplaEquipo != NULL){
+                                            print("<option value=\"" . $tuplaEquipo["id"] . "\">" . $tuplaEquipo["nombre_equipo"] . "</option>");
+                                            $tuplaEquipo = $conexion->BD_GetTupla($resEquipo);
+                                        }
+                                        
+                                        ?>
+                                        </select>
+                                    </div>
+
+
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-pill mr-2 text-white" data-bs-dismiss="modal">CANCELAR</button>
+                                    <input type="submit" class="btn btn-primary btn-pill text-white" value="Añadir">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="table-responsive">
-                                                        <table class="table table-striped table-active" id="TablaLigas">
+                                                        <table class="table table-striped table-active align-middle gs-0 gy-4" id="TablaUsuarios">
                                                             <thead>
                                                                 <tr class="">
-                                                                    <th data-type="string">NOMBRE</th>
-                                                                    <th data-type="number">EQUIPOS INSCRITOS</th>
+                                                                    <th data-type="string">CORREO</th>
+                                                                    <th data-type="string">ROL</th>
+                                                                    <th data-type="string">CURSO</th>
+                                                                    <th data-type="string">LIGA</th>
+                                                                    <th data-type="string">EQUIPO</th>
                                                                     <th class="no-sort"></th>
                                                                     <th class="no-sort"></th>
                                                                     <th class="no-sort"></th>
@@ -251,22 +333,27 @@
                                                             </thead>
                                                             <tbody>
                                                                 <?php
-                                                                $sqlLiga = "SELECT * FROM ligas";
-                                                                $resLiga = $conexion->BD_Consulta($sqlLiga);
-                                                                $tuplaLiga = $conexion->BD_GetTupla($resLiga);
-                                                                while ($tuplaLiga != NULL) {
-                                                                    print("<tr>
-                                                                    <td>" . $tuplaLiga["nombre_liga"] . "</td>");
-                                                                    $sqlEquipos = "SELECT * from equipos where id_liga=" . $tuplaLiga["id"] . "";
-                                                                    $resEquipos = $conexion->BD_Consulta($sqlEquipos);
-                                                                    if ($resEquipos == NULL) {
-                                                                        $numEquipos = 0;
-                                                                    } else {
-                                                                        $numEquipos = $conexion->BD_NumeroFilas($resEquipos);
+                                                                $sqlUsuario = "SELECT * from usuarios";
+                                                                $resUsuario = $conexion->BD_Consulta($sqlUsuario);
+                                                                $tuplaUsuario = $conexion->BD_GetTupla($resUsuario);
+                                                                while ($tuplaUsuario != NULL) {
+                                                                    print("<tr class=\"text-center\">
+                                                                    <td class=\"align-middle\">" . $tuplaUsuario["email"] . "</td>
+                                                                    <td class=\"align-middle\">" . $tuplaUsuario["rol"] . "</td>");
+                                                                    if($tuplaUsuario["id_jugador"] != NULL){
+                                                                        $sqlJugador = "SELECT * FROM jugadores, equipos, ligas where jugadores.id=$tuplaUsuario[id_jugador] and equipos.id=$tuplaUsuario[id_equipo] and ligas.id=$tuplaUsuario[id_liga]";
+                                                                        $resJugador = $conexion->BD_Consulta($sqlJugador);
+                                                                        $tuplaJugador = $conexion->BD_GetTupla($resJugador);
+                                                                        print("<td class=\"align-middle\">" . $tuplaJugador["jugador_curso"] . "</td>
+                                                                        <td class=\"align-middle\">" . $tuplaJugador["nombre_liga"] . "</td>
+                                                                        <td class=\"align-middle\">" . $tuplaJugador["nombre_equipo"] . "</td>");
+                                                                    }else{
+                                                                        print("<td></td>
+                                                                            <td></td>
+                                                                            <td></td>");
                                                                     }
-                                                                    print("<td>" . $numEquipos . "</td>");
                                                                     print("<td class=\"text-right align-middle\">
-                                                                        <a href=\"mod-liga.php?liga_id=" . $tuplaLiga["id"] . "\" class=\"btn btn-primary btn-pill btn-sm font-weight-bold\">
+                                                                        <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#ModalModUsuario" . $tuplaUsuario["id"] ."\" class=\"btn btn-primary btn-pill btn-sm font-weight-bold\">
                                                                             <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
                                                                                     <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
                                                                                         <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" />
@@ -274,10 +361,10 @@
                                                                                         <rect fill=\"#000000\" opacity=\"0.3\" x=\"5\" y=\"20\" width=\"15\" height=\"2\" rx=\"1\" />
                                                                                     </g>
                                                                                 </svg></span> EDITAR
-                                                                        </a>
-                                                                        </td>
-                                                                        <td class=\"text-right align-middle\">
-                                                                        <a href=\"#\" class=\"btn btn-danger btn-pill btn-sm font-weight-bold\" data-toggle=\"modal\" data-target=\"#ModalEliminarLiga" . $tuplaLiga["id"] . "\">
+                                                                        </a></td>");
+                                                                        if($tuplaUsuario["id"] != $vectorUsuario["id"]){
+                                                                        print("<td class=\"text-right align-middle\">
+                                                                        <a href=\"#\" class=\"btn btn-danger btn-pill btn-sm font-weight-bold\" data-toggle=\"modal\" data-target=\"#ModalEliminarUsuario" . $tuplaUsuario["id"] . "\">
                                                                             <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
                                                                                     <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
                                                                                         <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" />
@@ -286,27 +373,107 @@
                                                                                     </g>
                                                                                 </svg></span> ELIMINAR
                                                                         </a>
-                                                                        </td>
-                                                                        <td class=\"text-right align-middle\">
-                                                                        <a href=\"detalles-liga.php?liga_id=" . $tuplaLiga["id"] . "\" class=\"btn btn-info btn-pill btn-sm font-weight-bold\">
-                                                                                <span class=\"svg-icon svg-icon-default\"><i class=\"fa-solid fa-magnifying-glass\"></i></span> INSPECCIONAR
-                                                                        </a>
-                                                                    </td>
-                                                                        <div class=\"modal fade\" id=\"ModalEliminarLiga" . $tuplaLiga["id"] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"CancelarModal\" aria-hidden=\"true\">
+                                                                        </td>");
+                                                                        }else{
+                                                                            print("<td></td>");
+                                                                        }
+                                                                         if($tuplaUsuario["id"] != $vectorUsuario["id"]){
+                                    print("<td class=\"text-right align-middle\">
+                                        <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#ModalEnviarCorreo" . $tuplaUsuario["id"] ."\">
+                                        <span class=\"svg-icon svg-icon-default\"><i class=\"fa-solid fa-paper-plane text-dark\"></i></span>
+                                        </a>
+                                          </td>");
+                                                                        }else{
+                                                                            print("<td></td>");
+                                                                        }
+
+                                                                        print("<div class=\"modal fade\" id=\"ModalEliminarUsuario" . $tuplaUsuario["id"] . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"CancelarModal\" aria-hidden=\"true\">
                                                                             <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">
                                                                                 <div class=\"modal-content\">
                                                                                     <div class=\"modal-body\">
-                                                                                        Va a eliminar la <strong>" . $tuplaLiga["nombre_liga"] . "</strong>.<br> ¿Está seguro de que quiere eliminarlo?
+                                                                                        Va a eliminar el usuario <strong>" . $tuplaUsuario["email"] . "</strong>.<br> ¿Está seguro de que quiere eliminarlo?
                                                                                     </div>
                                                                                     <div class=\"modal-footer\">
                                                                                         <button type=\"button\" class=\"btn btn-light-primary btn-pill font-weight-bold\" data-dismiss=\"modal\">CANCELAR</button>
-                                                                                        <a href=\"index.php?id_liga_del=" . $tuplaLiga["id"] . "\" class=\"btn btn-primary btn-pill font-weight-bold\">CONFIRMAR</a>
+                                                                                        <a href=\"index.php?id_usuario_del=" . $tuplaUsuario["id"] . "\" class=\"btn btn-primary btn-pill font-weight-bold\">CONFIRMAR</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </tr>");
-                                                                    $tuplaLiga = $conexion->BD_GetTupla($resLiga);
+
+                                                                    print("<div class=\"modal fade\" id=\"ModalModUsuario" . $tuplaUsuario["id"] ."\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog modal-xl modal-dialog-centered\" role=\"document\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modificando Jugador</h5>
+                                <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">
+                                    <i aria-hidden=\"true\" class=\"ki ki-close\"></i>
+                                </button>
+                            </div>
+                            <form class=\"form\" action=\"index.php\" method=\"POST\">
+                                <input type=\"hidden\" name=\"aux_modUsuario\" value=\"" . $tuplaUsuario["id"] . "\">
+                                <input type=\"hidden\" name=\"aux_modUsuario_jugador\" value=\"" . $tuplaUsuario["id_jugador"] . "\">
+                                <input type=\"hidden\" name=\"aux_modUsuario_equipo\" value=\"" . $tuplaUsuario["id_equipo"] . "\">
+                                <input type=\"hidden\" name=\"aux_modUsuario_liga\" value=\"" . $tuplaUsuario["id_liga"] . "\">
+                                <input type=\"hidden\" name=\"aux_modUsuario_rol\" value=\"" . $tuplaUsuario["rol"] . "\">
+                                <div class=\"modal-body row flex-column flex-md-row justify-content-center align-items-center\">
+                                    <div class=\"form-group col-lg-6\">
+                                        <label for=\"email_mod\">Email <span class=\"text-danger\">*</span></label>
+                                        <input type=\"email\" class=\"form-control form-control-xl\" name=\"email_mod\" value=\"" . $tuplaUsuario["email"] . "\" required>
+                                    </div>
+                                    <div class=\"form-group col-lg-6\">
+                                        <label for=\"pass_mod\">Contraseña <span class=\"text-danger\">*</span> <span ><i onclick=\"togglePassword(" . $tuplaUsuario["id"] .", this)\" class=\"fa-solid fa-lock text-primary\"></i></span></label>
+                                        <input type=\"password\" id=\"password-" . $tuplaUsuario["id"] ."\" class=\"form-control form-control-xl\" name=\"pass_mod\" value=\"" . $tuplaUsuario["password"] . "\" required>
+                                    </div>
+                                </div>
+                                <div class=\"modal-footer\">
+                                    <button type=\"button\" class=\"btn btn-secondary btn-pill mr-2 text-white\" data-bs-dismiss=\"modal\">CANCELAR</button>
+                                    <input type=\"submit\" class=\"btn btn-primary btn-pill text-white\" value=\"Modificar\">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>");
+
+    print("<div class=\"modal fade\" id=\"ModalEnviarCorreo" . $tuplaUsuario["id"] . "\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog modal-lg\" role=\"document\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <h5 class=\"modal-title\" id=\"exampleModalLabel\">Enviar Correo a <strong>" . $tuplaUsuario["email"] ."</strong></h5>
+                                <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">
+                                    <i aria-hidden=\"true\" class=\"ki ki-close\"></i>
+                                </button>
+                            </div>
+                            <form class=\"form\" action=\"./index.php\" method=\"POST\" enctype='multipart/form-data'>
+                            <input type=\"hidden\" name=\"aux_correo\" value=\"" . $tuplaUsuario["email"] . "\">
+                                <div class=\"modal-body row flex-column flex-md-row justify-content-center align-items-center\">
+                                    <div class=\"form-group col-lg-12\">
+                                        <label for=\"asunto_correo\">Asunto</label>
+                                        <br>
+                                        <input type=\"text\" name=\"asunto_correo\" id=\"asunto_correo\" class=\"form-control w-100\" required>
+                                    </div>
+                                    <div class=\"form-group col-lg-12\">
+                                        <label for=\"cuerpo_correo\">Cuerpo</label>
+                                        <br>
+                                        <textarea name=\"cuerpo_correo\" id=\"cuerpo_correo\" class=\"form-control w-100\"></textarea>
+                                    </div>
+                                    <div class=\"col-lg-12\">
+                                    <label for=\"fichero_correo\">Archivos</label>
+                                    <br>
+                                    <input type=\"file\" id=\"fichero_correo\" name=\"fichero_correo\">
+                                    </div>
+                                </div>
+                                <div class=\"modal-footer\">
+                                    <button type=\"button\" class=\"btn btn-secondary btn-pill mr-2 text-white\" data-bs-dismiss=\"modal\">CANCELAR</button>
+                                    <input type=\"submit\" class=\"btn btn-primary btn-pill text-white\" value=\"Enviar Correo\">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>");
+
+                                                                    $tuplaUsuario = $conexion->BD_GetTupla($resUsuario);
                                                                 }
                                                                 ?>
                                                             </tbody>
@@ -326,48 +493,23 @@
                     <!--end::Entry-->
                 </div>
                 <!--end::Content-->
-                <div class="modal fade" id="NuevaLigaModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Indique el Nombre de la Liga, en caso de ya existir, ingrese una letra correspondiente al grupo</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <i aria-hidden="true" class="ki ki-close"></i>
-                                </button>
-                            </div>
-                            <form class="form" action="./index.php" method="POST">
-                                <div class="modal-body row flex-column flex-md-row justify-content-center align-items-center">
-                                    <div class="form-group col-lg-6 col-sm-6">
-                                        <label for="nombre_liga">Nombre Liga</label>
-                                        <br>
-                                        <input type="text" name="nombre_liga" class="form-control form-control-xl" id="nombre_liga" required>
-                                    </div>
-                                    <div class="form-group col-lg-6 col-sm-6">
-                                        <label for="grupo_liga">Grupo Liga</label>
-                                        <br>
-                                        <input type="text" maxlength="1" class="form-control form-control-xl" name="grupo_liga" id="grupo_liga">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <p>Ejemplo: Si ya existe "Liga Inventada" inserte "Liga Inventada" y en grupo "B"</p>
-                                    <button type="button" class="btn btn-secondary btn-pill mr-2 text-white" data-dismiss="modal">CANCELAR</button>
-                                    <input type="submit" class="btn btn-primary btn-pill text-white" value="Añadir Liga">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <!--end::Wrapper-->
         </div>
         <!--end::Page-->
     </div>
 
+
+
+    <!--end::Global Theme Bundle-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="../../../build/js/global/plugins.bundle.js"></script>
     <script src="../../../build/js/scripts.bundle.js"></script>
-    <!--end::Global Theme Bundle-->
-    <!-- <script src="../../../build/js/bootstrap-datepicker.js"></script> -->
+    <script src="../../../build/js/bootstrap-datepicker.js"></script>
     <script src="//cdn.datatables.net/2.3.0/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.5.1/js/dataTables.rowGroup.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.5.1/js/rowGroup.dataTables.js"></script>
     <script>
 
         function mostrarAyuda() {
@@ -383,10 +525,17 @@
 
         <script>
     $(document).ready(function() {
-            tabla = $('#TablaLigas').DataTable({
-                pageLength: 5,
+            tabla = $('#TablaUsuarios').DataTable({
+                pageLength: 10,
                 order: [],
                 lengthMenu: [5, 10, 15, 20],
+                orderFixed: [1, 'asc'],
+                rowGroup: {
+                    dataSrc: 1,
+                    startRender: function(rows, group) {
+                        return $('<tr class="bg-light group"><td style="font-weight: bold; font-size: 1.25rem;" colspan="8"><span>' + group + '</span></td></tr>');
+                    }
+                },
                 columnDefs: [{
                     targets: 'no-sort',
                     orderable: false,
@@ -405,6 +554,52 @@
         });
     </script>
 
+        <!-- Mostrar Contraseña -->
+    <script>
+            // Boton que ativa el mostrar
+        function togglePassword(userId, btn) {
+            // variable donde se guarda el input de la contraseña
+            const password = document.getElementById(`password-${userId}`);
+            if (password.type == "password") {
+                password.type = 'text';
+                btn.classList.remove("fa-lock");
+                btn.classList.add("fa-unlock");
+            } else {
+                password.type = 'password';
+                btn.classList.add("fa-lock");
+                btn.classList.remove("fa-unlock");
+            }
+        };
+    </script>
+
+<script>
+    // Script para que aparezca los campos respectivos al rol de usuario al seleccionarlo
+  document.getElementById('usuario_rol').addEventListener('change', function () {
+    const seleccion = this.value;
+    const divCurso = document.getElementById('divCurso');
+    const divEquipo = document.getElementById('divEquipo');
+    const divNombre = document.getElementById('divNombre');
+    const curso = document.getElementById('usuario_curso');
+    const equipo = document.getElementById('usuario_equipo');
+    const nombre = document.getElementById('usuario_nombre');
+
+    if (seleccion === 'Usuario') {
+      divCurso.style.display = 'block';
+      divEquipo.style.display = 'block';
+      divNombre.style.display = 'block';
+      curso.setAttribute('required', 'required');
+      equipo.setAttribute('required', 'required');
+      nombre.setAttribute('required', 'required');
+    } else {
+      divCurso.style.display = 'none';
+      divEquipo.style.display = 'none';
+      divNombre.style.display = 'none';
+      curso.removeAttribute('required');
+      equipo.removeAttribute('required');
+      nombre.removeAttribute('required');
+    }
+  });
+</script>
 </body>
 
 </html>

@@ -155,18 +155,22 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
                                         <div class="card-header" style="border: none;">
                                             <div class="card-title">
                                                 <h2 class="card-label font-weight-bolder">
-                                                    Inscribiendo Equipo
+                                                    Inscribiendo Jugador Nuevo
                                                 </h2>
                                             </div>
                                         </div>
@@ -201,8 +205,8 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group col-lg-12 col-sm-12">
-                                                            <label for="equipo_liga">Equipo</label>
-                                                            <select class="form-select h-auto form-control-solid py-4 mx-3" name="equipo_liga">
+                                                            <label for="jugador_equipo">Equipo</label>
+                                                            <select class="form-select h-auto form-control-solid py-4 mx-3" name="jugador_equipo">
                                                             <?php
                                                             $sqlEquipos = "SELECT * FROM equipos";
                                                             $resEquipos = $conexion->BD_Consulta($sqlEquipos);
@@ -223,17 +227,12 @@
                                                             ?>
                                                             </select>
                                                             </div>
-                                                            <div class="form-group col-lg-12 col-sm-12">
-                                                                <label for="jugador_pass">Contraseña</label>
-                                                                <input type="password" name="jugador_pass" id="jugador_pass" class="form-control h-auto form-control-solid py-4 px-8" require>
-                                                            </div>
-
                                                             </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" onclick="document.location.href='./index.php'" class="text-white btn btn-secondary btn-pill mr-2" data-dismiss="modal">CANCELAR</button>
-                                                            <button type="submit" class="btn btn-primary btn-pill text-white">INSCRIBIR EQUIPO</button>
+                                                            <button type="submit" class="btn btn-primary btn-pill text-white">INSCRIBIR JUGADOR</button>
                                                         </div>
                                                     </form>
                                                 </div>

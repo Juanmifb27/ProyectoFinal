@@ -163,11 +163,16 @@
                                                 <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-person-running"></i></span> Jugadores
                                             </a>
                                         </div>
-                                        <div class="mb-5 botonera text-right">
-                                            <a href="../usuarios/index.php" class="btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder">
-                                                <span class="svg-icon svg-icon-default svg-icon-2x"><i class="fa-solid fa-users"></i></span> Usuarios
+                                        <?php
+                                        if($vectorUsuario["rol"] == "AdministradorGeneral"){
+
+                                        print("<div class=\"mb-5 botonera text-right\">
+                                            <a href=\"../usuarios/index.php\" class=\"btn btn-lg btn-primary mr-1 btn-pill font-weight-bolder\">
+                                                <span class=\"svg-icon svg-icon-default svg-icon-2x\"><i class=\"fa-solid fa-users\"></i></span> Usuarios
                                             </a>
-                                        </div>
+                                        </div>");
+                                        }
+                                        ?>
                                     </div>
                                     <!--begin::Card-->
                                     <div class="card card-custom gutter-b">
@@ -254,6 +259,7 @@
                                                                     <th data-type="number">GC</th>
                                                                     <th data-type="number">JUGADORES INSCRITOS</th>
                                                                     <th class="no-sort"></th>
+                                                                    <th class="no-sort"></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -278,7 +284,7 @@
                                                                         $numJugadores = $conexion->BD_NumeroFilas($resJugadores);
                                                                     }
                                                                     print("<td class=\"text-center\">" . $numJugadores . "</td>");
-                                                                    print("<td class=\"text-right\">
+                                                                    print("<td class=\"text-right align-middle\">
                                                                         <a href=\"#\" class=\"btn btn-danger btn-pill btn-sm font-weight-bold\" data-toggle=\"modal\" data-target=\"#ModalEliminarEquipo" . $tuplaEquipos["id"] . "\">
                                                                             <span class=\"svg-icon svg-icon-white\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\" version=\"1.1\">
                                                                                     <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">
@@ -288,6 +294,8 @@
                                                                                     </g>
                                                                                 </svg></span> ELIMINAR
                                                                         </a>
+                                                                        </td>
+                                                                        <td class=\"text-right align-middle\">
                                                                         <a href=\"mod-equipo.php?equipo_id=" . $tuplaEquipos["id"] . "\" class=\"btn btn-info btn-pill btn-sm font-weight-bold\">
                                                                                 <span class=\"svg-icon svg-icon-default\"><i class=\"fa-solid fa-magnifying-glass\"></i></span> INSPECCIONAR
                                                                         </a>

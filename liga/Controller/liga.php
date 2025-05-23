@@ -61,7 +61,7 @@ if ($resultado_liga != NULL) {
 
         for ($i = 0; $i < count($liga_seleccionada); $i++) {
             $condicion = "WHERE id_liga = " . $liga_seleccionada[$i]["id"] . "";
-            $orden = "ORDER BY id_liga, puntos DESC";
+            $orden = "ORDER BY id_liga, puntos DESC, (goles_a_favor - goles_en_contra) DESC";
             $resultado_equipos = $equipos_connect->obtenerConFiltro($condicion, $orden);
 
             if ($resultado_equipos != NULL) {
@@ -86,6 +86,8 @@ if ($resultado_liga != NULL) {
             }
             }
         }
+
+
 
         if (isset($emparejamientos_temp) && $emparejamientos_temp != NULL) {
             for ($i=0; $i < count($emparejamientos_temp); $i++) { 
@@ -123,6 +125,7 @@ if ($resultado_liga != NULL) {
                             "nombre_local"=>$tuplaEmparejamiento["nombre_equipo"],
                             "goles_local"=>$emparejamientos_temp[$i]["goles_local"],
                             "id_visitante"=>$tuplaEmparejamiento["id"],
+                            "equipo_imagen_visitante"=>$tuplaEmparejamiento["equipo_imagen"],
                             "nombre_visitante"=>$tuplaEmparejamiento["nombre_equipo"],
                             "fecha_partido" => $emparejamientos_temp[$i]["fecha_partido"],
                             "resultado" => $emparejamientos_temp[$i]["resultado"]

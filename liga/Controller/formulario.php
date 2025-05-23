@@ -26,7 +26,11 @@ if (isset($_POST['aux']) && isset($_POST['nombreEquipo']) && isset($_POST['email
     unset($_POST['aux']);
     $nombre_equipo = limpiarDatos($_POST['nombreEquipo']);
     $equipo_correo = $_POST['email'];
-    $equipo_liga = $_POST['liga'];
+    $equipo_liga_id = $_POST['liga'];
+    $sql_liga_nombre = "SELECT * FROM ligas where id=$equipo_liga_id";
+    $res_liga_nombre = $conexion->BD_Consulta($sql_liga_nombre);
+    $tupla_liga_nombre = $conexion->BD_GetTupla($res_liga_nombre);
+    $equipo_liga = $tupla_liga_nombre["nombre_liga"];
     $imagen = $_FILES['escudo'];
     $nombre_imagen = $imagen['name'];
     $ruta_imagen = $imagen['tmp_name'];
